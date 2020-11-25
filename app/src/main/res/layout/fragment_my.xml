@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white">
+
+    <include layout="@layout/toolbar"/>
+    <ImageView
+        android:id="@+id/my_img"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:src="@mipmap/loan_logo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tool_Bar"
+        android:layout_marginTop="34.5dp"/>
+    <TextView
+        android:id="@+id/my_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SuperCash"
+        android:textSize="@dimen/ts_18"
+        android:textColor="@color/c_4D4D4D"
+        app:layout_constraintTop_toBottomOf="@+id/my_img"
+        app:layout_constraintStart_toStartOf="@+id/my_img"
+        app:layout_constraintEnd_toEndOf="@+id/my_img"
+        android:layout_marginTop="17dp" />
+    <TextView
+        android:id="@+id/my_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/ts_12"
+        android:textColor="@color/c_999999"
+        android:text="版本号：1.0.0"
+        android:layout_marginTop="12.5dp"
+        app:layout_constraintTop_toBottomOf="@+id/my_top"
+        app:layout_constraintStart_toStartOf="@+id/my_top"
+        app:layout_constraintEnd_toEndOf="@+id/my_top"/>
+
+    <TextView
+        android:id="@+id/tv1"
+        android:layout_width="325.5dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/my_version"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="@dimen/ts_15"
+        android:textColor="@color/c_666666"
+        android:layout_marginTop="14dp"
+        android:gravity="left"
+        android:text="Instant Rupee is one of India's largest financial information platforms. Instant Rupee can help Instant Rupee is one of India's largest financial information platforms. Instant Rupee can help Instant Rupee is one of India's largest financial information platforms. Instant Rupee can help"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

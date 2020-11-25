@@ -1,0 +1,89 @@
+apply plugin: 'com.android.application'
+apply plugin: 'cn.leo.plugin.magic' //java 用这个
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "29.0.3"
+
+    defaultConfig {
+        applicationId "com.loan.time"
+        minSdkVersion 19
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.2000.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    //    签名配置
+    signingConfigs {
+        loanTime {
+            storeFile file('../loantime.jks')
+            storePassword '123123'
+            keyAlias 'loantime'
+            keyPassword '123123'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField("String", "BASE_URL", "\"https://www.loantime.be/pubapi/\"")
+            signingConfig signingConfigs.loanTime
+        }
+        //test环境
+        debug {
+            buildConfigField("String", "BASE_URL", "\"https://www.loantime.be/pubapi/\"")
+            signingConfig signingConfigs.loanTime
+        }
+    }
+
+    sourceSets {
+        main {
+            jni.srcDirs = []
+            jniLibs.srcDirs 'libs'
+        }
+    }
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'androidx.annotation:annotation:1.1.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation project(path: ':refresh-layout-kernel')
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    //aar
+ //   implementation(name: 'goutil-v1.0.0', ext: 'aar')
+    //ButterKnife
+    implementation 'com.jakewharton:butterknife:10.2.3'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
+    //    Okgo
+    implementation 'com.lzy.net:okgo:3.0.4'
+    //     gson解析
+    implementation 'com.google.code.gson:gson:2.8.6'
+    // 基础依赖包，必须要依赖
+    implementation 'com.gyf.immersionbar:immersionbar:3.0.0-beta03'
+    // fragment快速实现（可选）
+    implementation 'com.gyf.immersionbar:immersionbar-components:3.0.0-beta03'
+    //权限管理
+    implementation 'com.yanzhenjie:permission:2.0.2'
+    //避免重复点击
+    implementation 'org.aspectj:aspectjrt:1.9.6'
+
+
+}
