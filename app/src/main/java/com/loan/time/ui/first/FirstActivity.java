@@ -104,6 +104,7 @@ public class FirstActivity extends MVPBaseActivity<FirstContract.View, FirstPres
             case R.id.rb_Home:
                 if (Build.VERSION.SDK_INT>=23){
                     ImmersionBar.with(FirstActivity.this)
+                            .transparentBar()
                             .statusBarDarkFont(false) .init();
                 }
                 if (homeFragment == null) {
@@ -116,7 +117,8 @@ public class FirstActivity extends MVPBaseActivity<FirstContract.View, FirstPres
             case R.id.rb_My:
                 if (Build.VERSION.SDK_INT>=23){
                     ImmersionBar.with(FirstActivity.this)
-                            .statusBarDarkFont(false) .init();
+                            .transparentBar()
+                            .statusBarDarkFont(true) .init();
                 }
                 if (myFragment == null) {
                     myFragment = MyFragment.newInstance();
