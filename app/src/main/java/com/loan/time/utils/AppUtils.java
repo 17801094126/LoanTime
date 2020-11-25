@@ -14,6 +14,9 @@ package com.loan.time.utils; /**
  * limitations under the License.
  */
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -21,12 +24,19 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.ContactsContract;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import androidx.core.content.FileProvider;
 
 
+import com.loan.time.App;
+
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -57,5 +67,62 @@ public final class AppUtils {
         context.startActivity(intent);
     }
 
+ /*   //获取内存总大小
+    public static long getTotalMem() {
+        try {
+            FileReader fr = new FileReader(FILE_MEMORY);
+            BufferedReader br = new BufferedReader(fr);
+            String text = br.readLine();
+            String[] array = text.split("\\s+");
+            // 单位为KB
+            return Long.valueOf(array[1]);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }*/
+    //获取可用内存大小
+    public static long getFreeMem(Context context) {
+        ActivityManager manager = (ActivityManager) context
+                .getSystemService(Activity.ACTIVITY_SERVICE);
+        ActivityManager.MemoryInfo info = new ActivityManager.MemoryInfo();
+        manager.getMemoryInfo(info);
+        // 单位Byte
+        return info.availMem;
+    }
+
+    /**
+     * 获取CPU型号
+     * @return
+     */
+    public static String getCpuName(){
+
+        String str1 = "/proc/cpuinfo";
+        String str2 = "";
+
+        try {
+            FileReader fr = new FileReader(str1);
+            BufferedReader localBufferedReader = new BufferedReader(fr);
+            while ((str2=localBufferedReader.readLine()) != null) {
+                if (str2.contains("Hardware")) {
+                    return str2.split(":")[1];
+                }
+            }
+            localBufferedReader.close();
+        } catch (IOException e) {
+        }
+        return null;
+    }
+    /**
+     * 设备的软件版本号
+     */
+    @SuppressLint("MissingPermission")
+    public static String getDeviceSoftwareVersion(){
+        TelephonyManager tm=(TelephonyManager) App.context.getSystemService(Context.TELEPHONY_SERVICE);
+        String deviceSoftwareVersion = tm.getDeviceSoftwareVersion();
+        return deviceSoftwareVersion;
+    }
 
 }

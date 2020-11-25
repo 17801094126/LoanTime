@@ -47,6 +47,6 @@ public class MyFragment extends MVPBaseFragment<MyContract.View, MyPresenter> im
         toolBar.setPadding(0, getHeight(), 0, 0);
         finish.setVisibility(View.GONE);
         title.setText("我的");
-        myVersion.setText("版本号 V"+ App.getAppVersion(activity));
+        myVersion.setText("版本号 V"+ App.getAppVersion());
     }
 }

@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
+import goutil.Goutil;
+
 public class App extends Application {
 
     //全局上下文
@@ -14,14 +16,14 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         context = this;
+
     }
 
     /**
      * 获取APP当前版本号
-     * @param context
      * @return
      */
-    public static String getAppVersion(Context context){
+    public static String getAppVersion(){
         PackageManager packageManager=context.getPackageManager();
         String version=null;
         try {
@@ -32,4 +34,22 @@ public class App extends Application {
         }
         return version;
     }
+
+    /**
+     * get App versionCode
+     * @return
+     */
+    public static String getVersionCode(){
+        PackageManager packageManager=context.getPackageManager();
+        PackageInfo packageInfo;
+        String versionCode="";
+        try {
+            packageInfo=packageManager.getPackageInfo(context.getPackageName(),0);
+            versionCode=packageInfo.versionCode+"";
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return versionCode;
+    }
+
 }

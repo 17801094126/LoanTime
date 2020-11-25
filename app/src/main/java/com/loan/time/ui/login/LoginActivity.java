@@ -76,6 +76,8 @@ public class LoginActivity extends MVPBaseActivity<LoginContract.View, LoginPres
         toolBar.setPadding(0, getHeight(), 0, 0);
         finish.setVisibility(View.GONE);
         title.setText("登录");
+        mPresenter.getUpdate(this);
+
     }
 
     @SingleClick
@@ -89,6 +91,7 @@ public class LoginActivity extends MVPBaseActivity<LoginContract.View, LoginPres
                 } else if (!PhoneNumberCheck.checkCellphone(phone)) {
                     Toast.makeText(this, "请输入正确的手机号", Toast.LENGTH_SHORT).show();
                 }else{
+                    mPresenter.getLoginImg(this,phone);
                     InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
                     initYzmDialog();
@@ -256,4 +259,8 @@ public class LoginActivity extends MVPBaseActivity<LoginContract.View, LoginPres
         et_code.setText("");
     }
 
+    @Override
+    public void getLoginImg() {
+
+    }
 }

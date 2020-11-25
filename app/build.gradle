@@ -67,13 +67,13 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    //aar
- //   implementation(name: 'goutil-v1.0.0', ext: 'aar')
     //ButterKnife
     implementation 'com.jakewharton:butterknife:10.2.3'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
     //    Okgo
     implementation 'com.lzy.net:okgo:3.0.4'
+    implementation(name: 'goutil-v1.0.0', ext: 'aar')
+
     //     gson解析
     implementation 'com.google.code.gson:gson:2.8.6'
     // 基础依赖包，必须要依赖
@@ -84,6 +84,7 @@ dependencies {
     implementation 'com.yanzhenjie:permission:2.0.2'
     //避免重复点击
     implementation 'org.aspectj:aspectjrt:1.9.6'
+    implementation 'com.wang.avi:library:2.1.3'
 
 
 }

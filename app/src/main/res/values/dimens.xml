@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="ts_10">10sp</dimen>
+    <dimen name="ts_11">11sp</dimen>
     <dimen name="ts_12">12sp</dimen>
     <dimen name="ts_13">13sp</dimen>
     <dimen name="ts_14">14sp</dimen>
@@ -12,7 +14,7 @@
     <dimen name="ts_9">9sp</dimen>
     <dimen name="ts_17">17sp</dimen>
     <dimen name="ts_35">35sp</dimen>
-    <dimen name="ts_11">11sp</dimen>
     <dimen name="ts_50">50sp</dimen>
     <dimen name="ts_20">20sp</dimen>
+    <dimen name="ts_33">33sp</dimen>
 </resources>
