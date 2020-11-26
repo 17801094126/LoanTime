@@ -1,6 +1,8 @@
 package com.loan.time.ui.platformDetail;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.loan.time.R;
 import com.loan.time.adaperts.AuthorityRv;
 import com.loan.time.adaperts.PlatRvAdapert;
+import com.loan.time.bean.ResponseBean;
 import com.loan.time.mvp.MVPBaseActivity;
 
 import java.util.ArrayList;
@@ -66,6 +69,7 @@ public class PlatformDetailsActivity extends MVPBaseActivity<PlatformInf.Platfor
     @BindView(R.id.bt_commit)
     TextView btCommit;
     private ArrayList<String> titleList=new ArrayList<>();
+    public static String PlatformBean="PlatformBean";
 
     @Override
     protected int getLayoutId() {
@@ -76,7 +80,8 @@ public class PlatformDetailsActivity extends MVPBaseActivity<PlatformInf.Platfor
     protected void initView() {
         super.initView();
         toolBar.setPadding(0, getHeight(), 0, 0);
-        title.setText("产品名称");
+        ResponseBean.DataBean.ProductListBean data = getIntent().getParcelableExtra(PlatformBean);
+        title.setText(data.getTitle());
         titleList.clear();
         titleList.add("年龄20～55周岁");
         titleList.add("无网贷逾期");

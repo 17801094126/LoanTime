@@ -19,12 +19,13 @@ import com.loan.time.utils.SingleClick;
 import com.scwang.smart.refresh.layout.footer.ClassicsFooter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
 
-public class HomeFragment extends MVPBaseFragment<HomeContract.View, HomePresenter> implements HomeContract.View {
+public class HomeFragment extends MVPBaseFragment<HomeContract.View, HomePresenter> implements HomeContract.View, HomeRvAdapert.RvItemClickListener {
 
     @BindView(R.id.home_high)
     View homeHigh;
@@ -42,7 +43,6 @@ public class HomeFragment extends MVPBaseFragment<HomeContract.View, HomePresent
     TextView tvLarge;
     @BindView(R.id.tv_quick)
     TextView tvQuick;
-    private ArrayList<ResponseBean> mList = new ArrayList<>();
     private FirstActivity activity;
 
     @Override
@@ -59,6 +59,36 @@ public class HomeFragment extends MVPBaseFragment<HomeContract.View, HomePresent
     protected void initView() {
         super.initView();
         mPresenter.getHomeData(activity);
+
+    }
+
+    @SingleClick
+    @OnClick({R.id.home_high, R.id.home_large, R.id.home_quick, R.id.home_img})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.home_img:
+                break;
+            case R.id.home_high:
+                startToList(tvHigh.getText().toString().trim(),ListActivity.IN_HIGHQUOTA);
+                break;
+            case R.id.home_large:
+                startToList(tvLarge.getText().toString().trim(),ListActivity.IN_FASTLENDING);
+                break;
+            case R.id.home_quick:
+                startToList(tvQuick.getText().toString().trim(),ListActivity.IN_RECOMMEND);
+                break;
+        }
+    }
+
+    private void startToList(String value,String plateKey) {
+        Intent intent = new Intent(activity, ListActivity.class);
+        intent.putExtra(ListActivity.List_Value, value);
+        intent.putExtra(ListActivity.PlateKey,plateKey);
+        startActivity(intent);
+    }
+
+    @Override
+    public void getHomeData(List<ResponseBean.DataBean.ProductListBean> mList) {
         LinearLayoutManager manager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false) {
             @Override
             public boolean canScrollVertically() {
@@ -69,35 +99,12 @@ public class HomeFragment extends MVPBaseFragment<HomeContract.View, HomePresent
         homeRv.setLayoutManager(manager);
         HomeRvAdapert adapert = new HomeRvAdapert(activity, mList,0);
         homeRv.setAdapter(adapert);
-        adapert.setOnClickListener(position -> startActivity(new Intent(activity, PlatformDetailsActivity.class)));
-    }
+        adapert.setOnClickListener(this);
 
-    @SingleClick
-    @OnClick({R.id.home_high, R.id.home_large, R.id.home_quick, R.id.home_img})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.home_img:
-                break;
-            case R.id.home_high:
-                startToList(tvHigh.getText().toString().trim());
-                break;
-            case R.id.home_large:
-                startToList(tvLarge.getText().toString().trim());
-                break;
-            case R.id.home_quick:
-                startToList(tvQuick.getText().toString().trim());
-                break;
-        }
-    }
-
-    private void startToList(String value) {
-        Intent intent = new Intent(activity, ListActivity.class);
-        intent.putExtra(ListActivity.List_Value, value);
-        startActivity(intent);
     }
 
     @Override
-    public void getHomeData() {
-
+    public void onClickerListener(int position) {
+        startActivity(new Intent(activity, PlatformDetailsActivity.class));
     }
 }

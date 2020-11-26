@@ -63,7 +63,7 @@
         android:id="@+id/tv_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="₹300.0000"
+        android:text=""
         android:textColor="@color/black"
         android:textSize="@dimen/ts_20"
         app:layout_constraintTop_toBottomOf="@+id/tv_amuount"
@@ -84,7 +84,7 @@
         android:id="@+id/tv_Interest_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="0.01%/day"
+        android:text=""
         android:textColor="@color/c_333333"
         android:textSize="@dimen/ts_12"
         app:layout_constraintTop_toBottomOf="@+id/tv_Interest"
@@ -105,14 +105,18 @@
         android:layout_marginBottom="13dp"/>
     <TextView
         android:id="@+id/tv_content"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="@+id/tv_back"
         app:layout_constraintTop_toTopOf="@+id/tv_back"
         app:layout_constraintBottom_toBottomOf="@+id/tv_back"
+        app:layout_constraintEnd_toEndOf="@+id/tv_back"
+        android:layout_marginRight="11.5dp"
         android:layout_marginLeft="11.5dp"
+        android:singleLine="true"
+        android:ellipsize="end"
         android:textColor="@color/navigation_tv_true"
         android:textSize="@dimen/ts_12"
-        android:text="XXXXXXXXXXXXXXXXXX"
+        android:text=""
         />
 </androidx.constraintlayout.widget.ConstraintLayout>
