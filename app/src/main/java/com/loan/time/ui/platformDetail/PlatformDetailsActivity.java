@@ -25,7 +25,6 @@ import butterknife.OnClick;
  */
 public class PlatformDetailsActivity extends MVPBaseActivity<PlatformInf.PlatformViewInf, PlatformPresenter> {
 
-
     @BindView(R.id.finish)
     ImageView finish;
     @BindView(R.id.title)

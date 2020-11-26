@@ -25,9 +25,9 @@ public class Constants {
     //平台
     public static final String Platform="android";
     //版本名称
-    public static final String VersionKey= App.getAppVersion();
+    public static final String VersionKey= BuildConfig.VERSION_NAME;
     //版本号
-    public static final String VersionCode=App.getVersionCode();
+    public static final String VersionCode=BuildConfig.VERSION_CODE+"";
 
 
 }

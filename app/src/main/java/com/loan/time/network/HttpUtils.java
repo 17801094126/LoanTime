@@ -38,7 +38,6 @@ public class HttpUtils {
     /**
      *
      * @param envURL  BaseURl
-     * @param appName  app应用名
      * @param apiCode 接口文档有
      * @param body 请求体
      * @param headers 接口文档有
@@ -50,7 +49,7 @@ public class HttpUtils {
     }
 
     /**
-     *
+     *数据解密 Decrypt
      * @param config App配置,共4个参数,json形式字符串,如: {"packageName":"","version":"","channelKey":"","versionKey":""}
      * @param plain base64 标准编码密文
      * @return
@@ -60,7 +59,7 @@ public class HttpUtils {
     }
 
     /**
-     *
+     * 数据加密 Encrypt
      * @param config App配置,共4个参数,json形式字符串,如: {"packageName":"","version":"","channelKey":"","versionKey":""}
      * @param ciphertext 明文 byte 数组
      * @return

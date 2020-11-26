@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <declare-styleable name="MZBannerView">
         <attr name="open_mz_mode" format="boolean"/>
         <attr name="canLoop" format="boolean"/>
@@ -13,5 +13,22 @@
             <enum name="right" value="2"/>
         </attr>
         <attr name="middle_page_cover" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="NumberProgressBar" tools:ignore="ResourceName">
+        <attr name="pb_progress" format="integer"/>
+        <attr name="pb_maxProgress" format="integer"/>
+
+        <attr name="pb_textSize" format="dimension"/>
+        <attr name="pb_textColor" format="color"/>
+
+        <attr name="pb_textOffset" format="dimension"/>
+
+        <attr name="pb_unreachedColor" format="color"/>
+        <attr name="pb_reachedColor" format="color"/>
+
+        <attr name="pb_reachedHeight" format="dimension"/>
+        <attr name="pb_unreachedHeight" format="dimension"/>
+
     </declare-styleable>
 </resources>

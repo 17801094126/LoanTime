@@ -34,13 +34,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:src="@mipmap/loan_logo" />
-        <!--<com.loan.time.api.PhoneCode
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/login_img_code"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="30.5dp"
-            android:layout_marginLeft="15dp"/>-->
         <View
             android:id="@+id/view1"
             android:layout_width="47.25dp"

@@ -2,6 +2,8 @@ package com.loan.time.network;
 
 public class HttpCode {
 
+    //网络请求成功
+    public static String CODE_SUCCESS="100000";
     //网络请求超时
     public static String CODE_50010="50010";
     //http 响应错误
@@ -18,4 +20,6 @@ public class HttpCode {
     public static String CODE_50030="50030";
     //数据加密错误
     public static String CODE_50031="50031";
+    //验证码错误
+    public static String CODE_121002="121002";
 }

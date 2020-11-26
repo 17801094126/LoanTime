@@ -37,6 +37,44 @@ public class RequestBean implements Serializable {
 
     private String mobile;
 
+    private String captchaId;
+    private String digits;
+
+    private String cooperateWay;
+    private String plateKey;
+
+    public String getCooperateWay() {
+        return cooperateWay;
+    }
+
+    public void setCooperateWay(String cooperateWay) {
+        this.cooperateWay = cooperateWay;
+    }
+
+    public String getPlateKey() {
+        return plateKey;
+    }
+
+    public void setPlateKey(String plateKey) {
+        this.plateKey = plateKey;
+    }
+
+    public String getDigits() {
+        return digits;
+    }
+
+    public void setDigits(String digits) {
+        this.digits = digits;
+    }
+
+    public String getCaptchaId() {
+        return captchaId;
+    }
+
+    public void setCaptchaId(String captchaId) {
+        this.captchaId = captchaId;
+    }
+
     public String getMobile() {
         return mobile;
     }
@@ -125,7 +163,54 @@ public class RequestBean implements Serializable {
         this.country = country;
     }
 
+    @Override
+    public String toString() {
+        return "RequestBean{" +
+                "packageName='" + packageName + '\'' +
+                ", channelKey='" + channelKey + '\'' +
+                ", platform='" + platform + '\'' +
+                ", deviceToken='" + deviceToken + '\'' +
+                ", deviceId='" + deviceId + '\'' +
+                ", uid='" + uid + '\'' +
+                ", versionKey='" + versionKey + '\'' +
+                ", version='" + version + '\'' +
+                ", deviceInfo=" + deviceInfo +
+                ", country='" + country + '\'' +
+                ", mobile='" + mobile + '\'' +
+                '}';
+    }
+
     public static class DataBean {
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "androidId='" + androidId + '\'' +
+                    ", availMemory='" + availMemory + '\'' +
+                    ", codeName='" + codeName + '\'' +
+                    ", cpu='" + cpu + '\'' +
+                    ", cpuInfo='" + cpuInfo + '\'' +
+                    ", deviceSoftwareVersion='" + deviceSoftwareVersion + '\'' +
+                    ", display='" + display + '\'' +
+                    ", gsmCellLocation='" + gsmCellLocation + '\'' +
+                    ", hardware='" + hardware + '\'' +
+                    ", imei='" + imei + '\'' +
+                    ", imsi='" + imsi + '\'' +
+                    ", language='" + language + '\'' +
+                    ", manufacturer='" + manufacturer + '\'' +
+                    ", model='" + model + '\'' +
+                    ", networkOperator='" + networkOperator + '\'' +
+                    ", networkOperatorName='" + networkOperatorName + '\'' +
+                    ", networkType='" + networkType + '\'' +
+                    ", product='" + product + '\'' +
+                    ", radioVersion='" + radioVersion + '\'' +
+                    ", release='" + release + '\'' +
+                    ", sdkVersion='" + sdkVersion + '\'' +
+                    ", serialNumber='" + serialNumber + '\'' +
+                    ", totalMemory='" + totalMemory + '\'' +
+                    ", uuid='" + uuid + '\'' +
+                    '}';
+        }
+
         //Android 设备安装的唯一ID，Settings.System.ANDROID_ID
         private String androidId= Settings.System.ANDROID_ID;
         //可用内存
@@ -143,7 +228,7 @@ public class RequestBean implements Serializable {
         // 基站定位信息, cid|lac
         private String gsmCellLocation;
         // Build.HARDWARD
-        private String hardware;
+        private String hardware=Build.HARDWARE;
         // 手机 IMEI 号 TelphonyManager.getDeviceId()
         private String imei;
         // 手机 IMSI 号 TelphonyManager.getSubscriberId()

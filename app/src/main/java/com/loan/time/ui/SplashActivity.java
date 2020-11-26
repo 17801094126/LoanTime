@@ -9,6 +9,7 @@ import android.widget.ImageView;
 
 import com.loan.time.R;
 import com.loan.time.ui.login.LoginActivity;
+import com.loan.time.utils.PreferenceUtil;
 
 import butterknife.ButterKnife;
 
@@ -39,6 +40,7 @@ public class SplashActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash);
+        PreferenceUtil.init(this);
         ButterKnife.bind(this);
         handler.postDelayed(runnable, 2000);
 

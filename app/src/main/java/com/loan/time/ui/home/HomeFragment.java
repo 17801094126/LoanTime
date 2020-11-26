@@ -58,6 +58,7 @@ public class HomeFragment extends MVPBaseFragment<HomeContract.View, HomePresent
     @Override
     protected void initView() {
         super.initView();
+        mPresenter.getHomeData(activity);
         LinearLayoutManager manager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false) {
             @Override
             public boolean canScrollVertically() {
@@ -93,5 +94,10 @@ public class HomeFragment extends MVPBaseFragment<HomeContract.View, HomePresent
         Intent intent = new Intent(activity, ListActivity.class);
         intent.putExtra(ListActivity.List_Value, value);
         startActivity(intent);
+    }
+
+    @Override
+    public void getHomeData() {
+
     }
 }
