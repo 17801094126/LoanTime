@@ -1,6 +1,7 @@
 package com.loan.time.ui.web;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
@@ -29,6 +30,7 @@ import com.loan.time.api.Constants;
 import com.loan.time.bean.RequestBean;
 import com.loan.time.mvp.MVPBaseActivity;
 import com.loan.time.utils.ActivityCollector;
+import com.loan.time.utils.AppUtils;
 import com.loan.time.utils.PreferenceUtil;
 
 import org.json.JSONArray;
@@ -85,29 +87,27 @@ public class WebActivity extends AppCompatActivity {
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                Log.e("QQQQ",url);
-                // 判断url链接中是否含有某个字段，如果有就执行指定的跳转（不执行跳转url链接），如果没有就加载url链接
-                if (url.contains("/mproduct-")) {
-                    return true;
+                Log.e(TAG,url);
+                String[] substring = url.split("callback=");
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    Log.e(TAG, concat(getJson()));
+                    // 只需要将第一种方法的loadUrl()换成下面该方法即可
+                    web.evaluateJavascript("javascript:"+substring[1]+"(" + concat(getJson()) + ")", value -> {
+                        //此处为 js 返回的结果
+                        Log.e(TAG, value);
+                    });
                 } else {
-                    return false;
+                    web.loadUrl("javascript:"+substring[1]+"(" + concat(getJson()) + ")");
                 }
+                return false;
 
             }
         });
         web.loadUrl(url);
         web.setWebChromeClient(new WebChromeClient() {
             public void onProgressChanged(WebView view, int progress) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    Log.e("QQQQ", concat(getJson()));
-                    // 只需要将第一种方法的loadUrl()换成下面该方法即可
-                    web.evaluateJavascript("javascript:appInfo1598863802973(" + concat(getJson()) + ")", value -> {
-                        //此处为 js 返回的结果
-                        Log.e("QQQQQQ", value);
-                    });
-                } else {
-                    web.loadUrl("javascript:appInfo1598863802973(" + concat(getJson()) + ")");
-                }
+
             }
         });
     }
@@ -160,6 +160,7 @@ public class WebActivity extends AppCompatActivity {
         requestBean.setTerminal_name(String.valueOf(R.string.app_name));
         requestBean.setToken(PreferenceUtil.getString(App.Token,""));
         requestBean.setDeviceId(PreferenceUtil.getString(App.DeviceId,""));
+        requestBean.setDeviceInfo(initDeviceInfo(this));
         String s = new Gson().toJson(requestBean);
         s.replaceAll("\\{","$");
         s.replaceAll("\\}","*");
@@ -184,6 +185,34 @@ public class WebActivity extends AppCompatActivity {
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    /**
+     * 设置App基本信息
+     * @param context
+     */
+    private RequestBean.DataBean initDeviceInfo(Context context) {
+        RequestBean.DataBean dataBean = new RequestBean.DataBean();
+        //设备的软件版本号
+        dataBean.setDeviceSoftwareVersion(AppUtils.getDeviceSoftwareVersion(context));
+        //设置IMEI号
+        dataBean.setImei(AppUtils.getIMEI(context));
+        //设置IMSI号
+        dataBean.setImsi(AppUtils.getIMSI(context));
+        //设置系统语言
+        dataBean.setLanguage(AppUtils.getLanguage(context));
+        dataBean.setDisplay(AppUtils.getDisplay(context));
+        dataBean.setNetworkOperator(AppUtils.getNetworkOperator(context));
+        dataBean.setNetworkOperatorName(AppUtils.getNetworkOperatorName(context));
+        dataBean.setNetworkType(AppUtils.getNetworkType(context));
+        dataBean.setTotalMemory(AppUtils.getAllMemory());
+        dataBean.setGsmCellLocation(AppUtils.getGsmCellLocation(context));
+        if (TextUtils.isEmpty(AppUtils.getUUID(context))){
+            dataBean.setUuid(AppUtils.getAndroidId(context));
+        }else{
+            dataBean.setUuid(AppUtils.getUUID(context));
+        }
+        return dataBean;
     }
 
 }
