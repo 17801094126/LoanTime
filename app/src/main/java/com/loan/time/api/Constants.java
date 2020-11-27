@@ -16,8 +16,6 @@ import com.loan.time.BuildConfig;
  */
 
 public class Constants {
-    //"https://openapi.juxinda360.cn/gateway/gateway/"
-    public static final String HOST_URL = BuildConfig.BASE_URL;
     //包名
     public static final String PaackageName=BuildConfig.APPLICATION_ID;
     //渠道

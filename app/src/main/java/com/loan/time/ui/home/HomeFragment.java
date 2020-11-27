@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.gyf.immersionbar.ImmersionBar;
 import com.loan.time.R;
 import com.loan.time.adaperts.HomeRvAdapert;
 import com.loan.time.bean.ResponseBean;
@@ -58,6 +59,7 @@ public class HomeFragment extends MVPBaseFragment<HomeContract.View, HomePresent
     @Override
     protected void initView() {
         super.initView();
+
         mPresenter.getHomeData(activity);
 
     }

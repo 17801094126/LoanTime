@@ -33,7 +33,6 @@ public class FirstActivity extends MVPBaseActivity<FirstContract.View, FirstPres
     //返回键监听
     private boolean isQuit;
     //读写权限
-    public String[] p = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     public static String TAG = FirstActivity.class.getSimpleName();
     FragmentManager manager;
     private HomeFragment homeFragment;
@@ -51,10 +50,9 @@ public class FirstActivity extends MVPBaseActivity<FirstContract.View, FirstPres
         manager = getSupportFragmentManager();
         RadioButton childAt = (RadioButton) rg.getChildAt(0);
         childAt.setChecked(true);
-        if (Build.VERSION.SDK_INT>=23){
-            ImmersionBar.with(this)
-                    .statusBarDarkFont(false) .init();
-        }
+        ImmersionBar.with(FirstActivity.this)
+                .transparentBar()
+                .statusBarDarkFont(false) .init();
         if (homeFragment == null) {
             homeFragment = HomeFragment.newInstance();
             FragmentUtils.addFragment(manager, homeFragment, R.id.first_Frame, false);
@@ -102,11 +100,9 @@ public class FirstActivity extends MVPBaseActivity<FirstContract.View, FirstPres
         initHideAllFragment();
         switch (checkedId) {
             case R.id.rb_Home:
-                if (Build.VERSION.SDK_INT>=23){
-                    ImmersionBar.with(FirstActivity.this)
-                            .transparentBar()
-                            .statusBarDarkFont(false) .init();
-                }
+                ImmersionBar.with(FirstActivity.this)
+                        .transparentBar()
+                        .statusBarDarkFont(false) .init();
                 if (homeFragment == null) {
                     homeFragment = HomeFragment.newInstance();
                     FragmentUtils.addFragment(manager, homeFragment, R.id.first_Frame, false);
@@ -119,6 +115,11 @@ public class FirstActivity extends MVPBaseActivity<FirstContract.View, FirstPres
                     ImmersionBar.with(FirstActivity.this)
                             .transparentBar()
                             .statusBarDarkFont(true) .init();
+                }else{
+                    ImmersionBar.with(this)
+                            .statusBarDarkFont(true)//状态栏字体是深色，不写默认为亮色
+                            .statusBarAlpha(0.3f)  //状态栏透明度，不写默认0.0f
+                            .init();
                 }
                 if (myFragment == null) {
                     myFragment = MyFragment.newInstance();
