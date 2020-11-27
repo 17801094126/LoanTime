@@ -2,6 +2,7 @@ package com.loan.time.ui.home;
 
 
 import android.content.Intent;
+import android.net.Uri;
 import android.view.View;
 import android.widget.TextView;
 
@@ -16,9 +17,12 @@ import com.loan.time.mvp.MVPBaseFragment;
 import com.loan.time.ui.first.FirstActivity;
 import com.loan.time.ui.list.ListActivity;
 import com.loan.time.ui.platformDetail.PlatformDetailsActivity;
+import com.loan.time.ui.web.WebActivity;
 import com.loan.time.utils.SingleClick;
 import com.scwang.smart.refresh.layout.footer.ClassicsFooter;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +49,7 @@ public class HomeFragment extends MVPBaseFragment<HomeContract.View, HomePresent
     @BindView(R.id.tv_quick)
     TextView tvQuick;
     private FirstActivity activity;
+    private List<ResponseBean.DataBean.ProductListBean> mList;
 
     @Override
     public int getLayoutId() {
@@ -91,6 +96,7 @@ public class HomeFragment extends MVPBaseFragment<HomeContract.View, HomePresent
 
     @Override
     public void getHomeData(List<ResponseBean.DataBean.ProductListBean> mList) {
+        this.mList=mList;
         LinearLayoutManager manager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false) {
             @Override
             public boolean canScrollVertically() {
@@ -107,6 +113,29 @@ public class HomeFragment extends MVPBaseFragment<HomeContract.View, HomePresent
 
     @Override
     public void onClickerListener(int position) {
-        startActivity(new Intent(activity, PlatformDetailsActivity.class));
+        /*Intent intent = new Intent(activity, PlatformDetailsActivity.class);
+        intent.putExtra(PlatformDetailsActivity.PlatformBean,mList.get(position));
+        startActivity(intent);*/
+        String innerProductUrl = mList.get(position).getInnerProductUrl();
+        try {
+            URL url=new URL(innerProductUrl);
+            if (url.getHost().equals("play.google.com")){
+                Uri uri = Uri.parse(mList.get(position).getInnerProductUrl());
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+            }else if (mList.get(position).getInnerProductUrl().endsWith("apk")){
+                Uri uri = Uri.parse(mList.get(position).getInnerProductUrl());
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+            }else{
+                Intent intent=new Intent(activity, WebActivity.class);
+                intent.putExtra(WebActivity.WebUrl,mList.get(position).getInnerProductUrl());
+                startActivity(intent);
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+
     }
 }

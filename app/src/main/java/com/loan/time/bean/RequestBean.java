@@ -6,6 +6,7 @@ import android.provider.Settings;
 import android.telephony.TelephonyManager;
 
 import com.loan.time.App;
+import com.loan.time.R;
 import com.loan.time.api.Constants;
 import com.loan.time.utils.AppUtils;
 
@@ -42,6 +43,69 @@ public class RequestBean implements Serializable {
 
     private String cooperateWay;
     private String plateKey;
+    private String bundle_id= Constants.PaackageName;
+    private String versionName= Constants.VersionKey;
+    private String channel_code=Constants.ChannelKey;
+    private String channel_name="google-play";
+    private String local="en-IN";
+    private String terminal_name;
+    private String token;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getTerminal_name() {
+        return terminal_name;
+    }
+
+    public void setTerminal_name(String terminal_name) {
+        this.terminal_name = terminal_name;
+    }
+
+    public String getLocal() {
+        return local;
+    }
+
+    public void setLocal(String local) {
+        this.local = local;
+    }
+
+    public String getChannel_name() {
+        return channel_name;
+    }
+
+    public void setChannel_name(String channel_name) {
+        this.channel_name = channel_name;
+    }
+
+    public String getChannel_code() {
+        return channel_code;
+    }
+
+    public void setChannel_code(String channel_code) {
+        this.channel_code = channel_code;
+    }
+
+    public String getVersionName() {
+        return versionName;
+    }
+
+    public void setVersionName(String versionName) {
+        this.versionName = versionName;
+    }
+
+    public String getBundle_id() {
+        return bundle_id;
+    }
+
+    public void setBundle_id(String bundle_id) {
+        this.bundle_id = bundle_id;
+    }
 
     public String getCooperateWay() {
         return cooperateWay;

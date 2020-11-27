@@ -157,12 +157,16 @@ public class LoginActivity extends MVPBaseActivity<LoginContract.View, LoginPres
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.login_bt:
-                if (AndPermission.hasPermissions(LoginActivity.this, p)){
-                    //获取到权限
-                    initLogin();
+                if (isAgree.isChecked()){
+                    if (AndPermission.hasPermissions(LoginActivity.this, p)){
+                        //获取到权限
+                        initLogin();
+                    }else{
+                        //未获取到权限
+                        initPermission();
+                    }
                 }else{
-                    //未获取到权限
-                    initPermission();
+                    ToastUtils.showToast(this,"Please check 《Platform Service Agreement》");
                 }
                 break;
             case R.id.tv1:
@@ -176,9 +180,9 @@ public class LoginActivity extends MVPBaseActivity<LoginContract.View, LoginPres
     private void initLogin() {
         phone = loginEdPhone.getText().toString().trim();
         if (TextUtils.isEmpty(phone)) {
-            Toast.makeText(this, "请输入手机号", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please enter phone number", Toast.LENGTH_SHORT).show();
         } else if (!PhoneNumberCheck.checkCellphone(phone)) {
-            Toast.makeText(this, "请输入正确的手机号", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please enter a valid phone number", Toast.LENGTH_SHORT).show();
         }else{
             mPresenter.getLoginImg(this,phone);
         }
@@ -224,8 +228,10 @@ public class LoginActivity extends MVPBaseActivity<LoginContract.View, LoginPres
             //一定要先show出来再设置dialog的参数，不然就不会改变dialog的大小了
             Window window = yzmDialog.getWindow();
             window.setBackgroundDrawable(new ColorDrawable(0));
-
             login_img_code=view.findViewById(R.id.login_img_code);
+            login_img_code.setOnClickListener(v -> {
+                mPresenter.getLoginImg(this,loginEdPhone.getText().toString().trim());
+            });
             view1_ind=view.findViewById(R.id.view1_ind);
             ed1=view.findViewById(R.id.ed1);
             view2_ind=view.findViewById(R.id.view2_ind);
@@ -239,9 +245,11 @@ public class LoginActivity extends MVPBaseActivity<LoginContract.View, LoginPres
             et_code.setLongClickable(true);//支持长按
             initEvent();
         }
-        yzmDialog.show();
-        yzmDialog.setCanceledOnTouchOutside(false);
-        handler.sendEmptyMessageDelayed(BOND,100);
+        if (yzmDialog!=null&&!yzmDialog.isShowing()){
+            yzmDialog.show();
+            yzmDialog.setCanceledOnTouchOutside(false);
+            handler.sendEmptyMessageDelayed(BOND,100);
+        }
         if (!BitmapUtils.isBase64Img(image)){
             Bitmap bitmap = BitmapUtils.stringToBitmap(image);
             RequestOptions options=new RequestOptions();

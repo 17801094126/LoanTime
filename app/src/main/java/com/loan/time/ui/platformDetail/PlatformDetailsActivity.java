@@ -1,8 +1,6 @@
 package com.loan.time.ui.platformDetail;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.loan.time.R;
-import com.loan.time.adaperts.AuthorityRv;
 import com.loan.time.adaperts.PlatRvAdapert;
 import com.loan.time.bean.ResponseBean;
 import com.loan.time.mvp.MVPBaseActivity;
@@ -68,8 +65,10 @@ public class PlatformDetailsActivity extends MVPBaseActivity<PlatformInf.Platfor
     ImageView imgFang;
     @BindView(R.id.bt_commit)
     TextView btCommit;
-    private ArrayList<String> titleList=new ArrayList<>();
-    public static String PlatformBean="PlatformBean";
+    @BindView(R.id.tv_price_number)
+    TextView tvPriceNumber;
+    private ArrayList<String> titleList = new ArrayList<>();
+    public static String PlatformBean = "PlatformBean";
 
     @Override
     protected int getLayoutId() {
@@ -82,6 +81,10 @@ public class PlatformDetailsActivity extends MVPBaseActivity<PlatformInf.Platfor
         toolBar.setPadding(0, getHeight(), 0, 0);
         ResponseBean.DataBean.ProductListBean data = getIntent().getParcelableExtra(PlatformBean);
         title.setText(data.getTitle());
+        tvRililvNumber.setText(data.getInterestCycleRate() + "%");
+        tvTime.setText(data.getMinLoanTerm() + "/" + data.getMaxLoanTerm());
+        tvRp.setText("最高可贷(" + data.getCurrency() + ")");
+        tvPriceNumber.setText(data.getMaxBorrowAmt());
         titleList.clear();
         titleList.add("年龄20～55周岁");
         titleList.add("无网贷逾期");
@@ -108,5 +111,12 @@ public class PlatformDetailsActivity extends MVPBaseActivity<PlatformInf.Platfor
             case R.id.bt_commit:
                 break;
         }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }

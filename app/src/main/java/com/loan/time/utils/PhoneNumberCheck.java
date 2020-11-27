@@ -34,13 +34,13 @@ public class PhoneNumberCheck {
      * @return
      */
     public static boolean checkCellphone(String cellphone) {
-        String regex = "^[1][3-9][0-9]{9}$";
+        String regex = "^[1][0-9]{9}$";
         // String regex = "^((13[0-9])|(14[5,7,9])|(15([0-3]|[5-9]))|(16[6])|(17[0,1,3,5,6,7,8,9])|
         // (18[0-9])|(19[0,1,2,3,8,9]))\\d{8}$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher;
-        if (cellphone.length() > 11) {
-            matcher = pattern.matcher(cellphone.substring(cellphone.length() - 11, cellphone.length()));
+        if (cellphone.length() > 10) {
+            matcher = pattern.matcher(cellphone.substring(cellphone.length() - 10, cellphone.length()));
         } else {
             matcher = pattern.matcher(cellphone);
         }
