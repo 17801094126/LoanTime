@@ -57,7 +57,7 @@ public class AuthorityActivity extends MVPBaseActivity<AuthorityContract.View, A
         super.initView();
         toolBar.setPadding(0, getHeight(), 0, 0);
         finish.setVisibility(View.GONE);
-        title.setText("权限声明");
+        title.setText("Permission statement");
 
     }
 

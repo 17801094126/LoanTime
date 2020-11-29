@@ -5,11 +5,13 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
+import com.android.tony.defenselib.DefenseCrash;
+import com.android.tony.defenselib.handler.IExceptionHandler;
 import com.loan.time.utils.PreferenceUtil;
 
 import goutil.Goutil;
 
-public class App extends Application {
+public class App extends Application implements IExceptionHandler {
 
     //全局上下文
     public static Context context;
@@ -24,6 +26,10 @@ public class App extends Application {
         super.onCreate();
         context = this;
         PreferenceUtil.init(this);
+        // step1: 初始化库
+        DefenseCrash.initialize();
+        // setp2: 安装防火墙
+        DefenseCrash.install(this);
     }
 
     /**
@@ -84,4 +90,23 @@ public class App extends Application {
         }
     }
 
+    @Override
+    public void onCaughtException(Thread thread, Throwable throwable, boolean b) {
+        // step3: 打印错误堆栈
+        throwable.printStackTrace();
+        // step4: 上报该错误到错误收集的平台,例如国内的Bugly,友盟等
+    }
+
+    @Override
+    public void onEnterSafeMode() {
+        // 框架使程序运行进入了安全模式,这种情况是在程序运行过程中发生了崩溃,
+        // 但是不要慌,已经被框架拦截并且进入了安全模式,这里你可以什么都不用做.
+    }
+
+    @Override
+    public void onMayBeBlackScreen(Throwable throwable) {
+        // 这个回调说明在onLayout(),onMeasure() 和 onDraw()中出现了崩溃
+        // 这种崩溃会导致绘图异常和编舞者类崩溃
+        // 我们建议你在这时候,重启当前的activity或者应用
+    }
 }

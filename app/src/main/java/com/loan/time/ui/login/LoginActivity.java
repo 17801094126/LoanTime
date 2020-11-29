@@ -37,6 +37,7 @@ import com.loan.time.bean.ResponseDecryptBean;
 import com.loan.time.mvp.MVPBaseActivity;
 import com.loan.time.ui.authority.AuthorityActivity;
 import com.loan.time.ui.first.FirstActivity;
+import com.loan.time.ui.web.WebActivity;
 import com.loan.time.utils.ActivityCollector;
 import com.loan.time.utils.AppUtils;
 import com.loan.time.utils.BitmapUtils;
@@ -116,7 +117,7 @@ public class LoginActivity extends MVPBaseActivity<LoginContract.View, LoginPres
     private void initToolBar() {
         toolBar.setPadding(0, getHeight(), 0, 0);
         finish.setVisibility(View.GONE);
-        title.setText("登录");
+        title.setText("Login");
     }
 
 
@@ -153,7 +154,7 @@ public class LoginActivity extends MVPBaseActivity<LoginContract.View, LoginPres
     }
 
     @SingleClick
-    @OnClick({R.id.login_bt, R.id.tv1})
+    @OnClick({R.id.login_bt, R.id.tv_xieyi})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.login_bt:
@@ -169,7 +170,14 @@ public class LoginActivity extends MVPBaseActivity<LoginContract.View, LoginPres
                     ToastUtils.showToast(this,"Please check 《Platform Service Agreement》");
                 }
                 break;
-            case R.id.tv1:
+            case R.id.tv_xieyi:
+                if (!TextUtils.isEmpty(xieYiUrl)){
+                    Intent intent = new Intent(this, WebActivity.class);
+                    intent.putExtra(WebActivity.WebUrl,xieYiUrl);
+                    startActivity(intent);
+                }else{
+                    ToastUtils.showToast(this,"api_login_protocol_url is Null!!");
+                }
                 break;
         }
     }
@@ -187,7 +195,6 @@ public class LoginActivity extends MVPBaseActivity<LoginContract.View, LoginPres
             mPresenter.getLoginImg(this,phone);
         }
     }
-
 
     private EditText et_code;
     private ImageView login_img_code;
@@ -400,8 +407,15 @@ public class LoginActivity extends MVPBaseActivity<LoginContract.View, LoginPres
     @Override
     public void getUpdate(ResponseDecryptBean dataBean) {
         ResponseDecryptBean.VersionInfoBean versionInfo = dataBean.getVersionInfo();
+
         //处理版本更新
         initVersion(versionInfo);
+    }
+
+    private String xieYiUrl;
+    @Override
+    public void getLoginXieYi(String url) {
+        this.xieYiUrl=url;
     }
 
     private String msg;

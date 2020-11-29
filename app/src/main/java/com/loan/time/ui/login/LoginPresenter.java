@@ -25,9 +25,12 @@ import com.loan.time.utils.AppUtils;
 import com.loan.time.utils.PreferenceUtil;
 import com.loan.time.utils.ToastUtils;
 
+import java.sql.PreparedStatement;
+import java.util.List;
+import java.util.logging.Logger;
+
 import goutil.Goutil;
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -76,9 +79,14 @@ public class LoginPresenter  extends BasePresenterImpl<LoginContract.View> imple
                         DecryptBean decryptBean = new DecryptBean();
                         byte[] decrypt = HttpUtils.getInstance().decrypt(gson.toJson(decryptBean), responseBean.getData().getConfig());
                         String s = new String(decrypt);
+                        Log.e("LoginActivity",s);
                         ResponseDecryptBean bean = new Gson().fromJson(s, ResponseDecryptBean.class);
-                        if (isAttarchView())
+                        List<ResponseDecryptBean.ExtendListBean> extendList = bean.getExtendList();
+                        String loginUrl = getLoginUrl(extendList);
+                        if (isAttarchView()){
                             getView().getUpdate(bean);
+                            getView().getLoginXieYi(loginUrl);
+                        }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -101,6 +109,17 @@ public class LoginPresenter  extends BasePresenterImpl<LoginContract.View> imple
 
     }
 
+    private String getLoginUrl(List<ResponseDecryptBean.ExtendListBean> extendList){
+        String extendValue="";
+        for (int i = 0; i < extendList.size(); i++) {
+            ResponseDecryptBean.ExtendListBean extendListBean = extendList.get(i);
+            if (extendListBean.getExtendCode().equals("api_login_protocol_url")){
+                extendValue = extendListBean.getExtendValue();
+            }
+        }
+        return extendValue;
+
+    }
     /**
      * 获取图片验证码
      * @param context
@@ -110,14 +129,41 @@ public class LoginPresenter  extends BasePresenterImpl<LoginContract.View> imple
     public void getLoginImg(Context context,String mobilePhone) {
         loanDialog=LoanDialog.show(context,false);
         Observable.create((ObservableOnSubscribe<ResponseBean>) emitter -> {
-                    RequestBean requestBean = new RequestBean();
-                    requestBean.setMobile(mobilePhone);
-                    requestBean.setDeviceToken(PreferenceUtil.getString(App.DeviceToken, ""));
-                    requestBean.setDeviceId(PreferenceUtil.getString(App.DeviceId, ""));
-                    requestBean.setUid("0");
-                    String respone = HttpUtils.getInstance().sendRequest(BuildConfig.BASE_URL, "a_l_0", gson.toJson(requestBean), "{}");
-                    ResponseBean responseBean = gson.fromJson(respone, ResponseBean.class);
-                    emitter.onNext(responseBean);
+            if (TextUtils.isEmpty(PreferenceUtil.getString(App.DeviceToken,""))){
+                RequestBean requestBean = new RequestBean();
+                requestBean.setDeviceToken("");
+                requestBean.setDeviceId("");
+                requestBean.setUid("0");
+                //设置App基本信息
+                RequestBean.DataBean dataBean = initDeviceInfo(context);
+                requestBean.setDeviceInfo(dataBean);
+                String respone = HttpUtils.getInstance().sendRequest(BuildConfig.BASE_URL, "a_a_0", gson.toJson(requestBean), "{}");
+                Log.e("QQQQ",respone);
+                ResponseBean responseBean = gson.fromJson(respone, ResponseBean.class);
+                String deviceId = responseBean.getData().getDeviceId();
+                String deviceToken = responseBean.getData().getDeviceToken();
+                requestBean.setMobile(mobilePhone);
+                requestBean.setDeviceToken(deviceToken);
+                requestBean.setDeviceId(deviceId);
+                requestBean.setUid("0");
+                String respone1 = HttpUtils.getInstance().sendRequest(BuildConfig.BASE_URL, "a_l_0", gson.toJson(requestBean), "{}");
+                ResponseBean responseBean1 = gson.fromJson(respone1, ResponseBean.class);
+                ResponseBean.DataBean data = responseBean1.getData();
+                data.setDeviceId(deviceId);
+                data.setDeviceToken(deviceToken);
+                responseBean1.setData(data);
+                emitter.onNext(responseBean1);
+            }else{
+                RequestBean requestBean = new RequestBean();
+                requestBean.setMobile(mobilePhone);
+                requestBean.setDeviceToken(PreferenceUtil.getString(App.DeviceToken, ""));
+                requestBean.setDeviceId(PreferenceUtil.getString(App.DeviceId, ""));
+                requestBean.setUid("0");
+                String respone = HttpUtils.getInstance().sendRequest(BuildConfig.BASE_URL, "a_l_0", gson.toJson(requestBean), "{}");
+                ResponseBean responseBean = gson.fromJson(respone, ResponseBean.class);
+                emitter.onNext(responseBean);
+            }
+
         }).subscribeOn(Schedulers.io()) // 指定 subscribe() 发生在 运算 线程
                 .observeOn(AndroidSchedulers.mainThread()) // 指定 Subscriber 的回调发生在主线程
             .subscribe(new Observer<ResponseBean>() {
@@ -130,6 +176,12 @@ public class LoginPresenter  extends BasePresenterImpl<LoginContract.View> imple
                 public void onNext(ResponseBean responseBean) {
                     loanDialog.dismiss();
                     if (HttpCode.CODE_SUCCESS.equals(responseBean.getCode())){
+                        if (TextUtils.isEmpty(PreferenceUtil.getString(App.DeviceId,""))){
+                            PreferenceUtil.commitString(App.DeviceId,responseBean.getData().getDeviceId());
+                        }
+                        if (TextUtils.isEmpty(PreferenceUtil.getString(App.DeviceToken,""))){
+                            PreferenceUtil.commitString(App.DeviceToken,responseBean.getData().getDeviceToken());
+                        }
                         if (isAttarchView())
                             getView().getLoginImg(responseBean.getData().getId(),responseBean.getData().getImage());
                     }

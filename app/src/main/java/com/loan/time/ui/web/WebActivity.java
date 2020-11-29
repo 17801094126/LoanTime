@@ -31,6 +31,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -101,13 +104,14 @@ public class WebActivity extends AppCompatActivity {
                             try {
                                 String data = parse.getQueryParameter("data");
                                 JSONObject jsonObject = new JSONObject(data);
-                                String url1 = jsonObject.getString("url");
-                                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url1));
+                                String decoderString = URLDecoder.decode(jsonObject.getString("url"),"UTF-8");
+                                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(decoderString));
                                 startActivity(intent);
-                                WebActivity.this.finish();
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }catch (NullPointerException e){
+                                e.printStackTrace();
+                            } catch (UnsupportedEncodingException e) {
                                 e.printStackTrace();
                             }
                     }else if ("appInfo".equals(host)){

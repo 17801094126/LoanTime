@@ -3,6 +3,7 @@ buildscript {
     repositories {
         google()
         jcenter()
+        mavenCentral()
         maven {//配置maven库地址
             url "https://dl.bintray.com/rongandroid/maven"
 
@@ -22,6 +23,7 @@ allprojects {
         google()
         jcenter()
         maven { url 'https://jitpack.io' }
+        maven { url 'https://dl.bintray.com/xuuhaoo/maven/'}
     }
 }
 

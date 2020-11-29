@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,10 +17,12 @@ import com.loan.time.bean.ResponseBean;
 import com.loan.time.mvp.MVPBaseFragment;
 import com.loan.time.ui.first.FirstActivity;
 import com.loan.time.ui.list.ListActivity;
-import com.loan.time.ui.platformDetail.PlatformDetailsActivity;
 import com.loan.time.ui.web.WebActivity;
 import com.loan.time.utils.SingleClick;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.footer.ClassicsFooter;
+import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -40,14 +43,14 @@ public class HomeFragment extends MVPBaseFragment<HomeContract.View, HomePresent
     View homeQuick;
     @BindView(R.id.home_rv)
     RecyclerView homeRv;
-    @BindView(R.id.class_Footer)
-    ClassicsFooter classFooter;
     @BindView(R.id.tv_high)
     TextView tvHigh;
     @BindView(R.id.tv_large)
     TextView tvLarge;
     @BindView(R.id.tv_quick)
     TextView tvQuick;
+    @BindView(R.id.smart)
+    SmartRefreshLayout smartRefreshLayout;
     private FirstActivity activity;
     private List<ResponseBean.DataBean.ProductListBean> mList;
 
@@ -66,6 +69,11 @@ public class HomeFragment extends MVPBaseFragment<HomeContract.View, HomePresent
         super.initView();
 
         mPresenter.getHomeData(activity);
+
+        smartRefreshLayout.setOnRefreshListener(refreshLayout -> {
+            mPresenter.getHomeData(activity);
+
+        });
 
     }
 
@@ -96,6 +104,7 @@ public class HomeFragment extends MVPBaseFragment<HomeContract.View, HomePresent
 
     @Override
     public void getHomeData(List<ResponseBean.DataBean.ProductListBean> mList) {
+        smartRefreshLayout.finishRefresh();
         this.mList=mList;
         LinearLayoutManager manager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false) {
             @Override
@@ -108,14 +117,10 @@ public class HomeFragment extends MVPBaseFragment<HomeContract.View, HomePresent
         HomeRvAdapert adapert = new HomeRvAdapert(activity, mList,0);
         homeRv.setAdapter(adapert);
         adapert.setOnClickListener(this);
-
     }
 
     @Override
     public void onClickerListener(int position) {
-        /*Intent intent = new Intent(activity, PlatformDetailsActivity.class);
-        intent.putExtra(PlatformDetailsActivity.PlatformBean,mList.get(position));
-        startActivity(intent);*/
         String innerProductUrl = mList.get(position).getInnerProductUrl();
         try {
             URL url=new URL(innerProductUrl);

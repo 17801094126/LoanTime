@@ -23,11 +23,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="8.5dp"/>
-        <com.scwang.smart.refresh.layout.footer.ClassicsFooter
-            android:id="@+id/class_Footer"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            app:srlTextSizeTitle="@dimen/ts_15"/>
     </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
 </LinearLayout>
