@@ -10,39 +10,29 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import com.google.gson.Gson;
-import com.gyf.immersionbar.ImmersionBar;
 import com.loan.time.App;
 import com.loan.time.R;
-import com.loan.time.api.Constants;
 import com.loan.time.bean.RequestBean;
-import com.loan.time.mvp.MVPBaseActivity;
 import com.loan.time.utils.ActivityCollector;
 import com.loan.time.utils.AppUtils;
 import com.loan.time.utils.PreferenceUtil;
+import com.loan.time.utils.ToastUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.List;
-import java.util.logging.Logger;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class WebActivity extends AppCompatActivity {
 
@@ -71,7 +61,7 @@ public class WebActivity extends AppCompatActivity {
     private void initData() {
 
         Intent intent = getIntent();
-        String url = intent.getStringExtra(WebUrl);
+        String activityurl = intent.getStringExtra(WebUrl);
 
         WebSettings webSettings = web.getSettings();
         //设置支持javascript
@@ -88,28 +78,58 @@ public class WebActivity extends AppCompatActivity {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 Log.e(TAG,url);
-                String[] substring = url.split("callback=");
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    Log.e(TAG, concat(getJson()));
-                    // 只需要将第一种方法的loadUrl()换成下面该方法即可
-                    web.evaluateJavascript("javascript:"+substring[1]+"(" + concat(getJson()) + ")", value -> {
-                        //此处为 js 返回的结果
-                        Log.e(TAG, value);
-                    });
-                } else {
-                    web.loadUrl("javascript:"+substring[1]+"(" + concat(getJson()) + ")");
+                Uri parse = Uri.parse(url);
+                String scheme = parse.getScheme();
+                String host = parse.getHost();
+                if (url.endsWith("apk")){
+                    Intent intent = new Intent(Intent.ACTION_VIEW, parse);
+                    startActivity(intent);
+                    WebActivity.this.finish();
+                }else if ("play.google.com".equals(host)){
+                    Intent intent = new Intent(Intent.ACTION_VIEW, parse);
+                    startActivity(intent);
+                    WebActivity.this.finish();
                 }
-                return false;
+
+                //拦截H5URL   判断Schema
+                if ("wode-schema".equals(scheme)){
+                    //判断不同Host
+                    if ("closeNewWebview".equals(host)){
+                        ToastUtils.showToast(WebActivity.this,"Close WebView!");
+                        WebActivity.this.finish();
+                    }else if ("jumpUrlOuter".equals(host)){
+                            try {
+                                String data = parse.getQueryParameter("data");
+                                JSONObject jsonObject = new JSONObject(data);
+                                String url1 = jsonObject.getString("url");
+                                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url1));
+                                startActivity(intent);
+                                WebActivity.this.finish();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }catch (NullPointerException e){
+                                e.printStackTrace();
+                            }
+                    }else if ("appInfo".equals(host)){
+                        String callback = parse.getQueryParameter("callback");
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                            Log.e(TAG, concat(getJson()));
+                            // 只需要将第一种方法的loadUrl()换成下面该方法即可
+                            web.evaluateJavascript("javascript:"+callback+"(" + concat(getJson()) + ")", value -> {
+                                //此处为 js 返回的结果
+                                Log.e(TAG, value);
+                            });
+                        } else {
+                            web.loadUrl("javascript:"+callback+"(" + concat(getJson()) + ")");
+                        }
+                    }
+
+                }
+                return true;
 
             }
         });
-        web.loadUrl(url);
-        web.setWebChromeClient(new WebChromeClient() {
-            public void onProgressChanged(WebView view, int progress) {
-
-            }
-        });
+        web.loadUrl(activityurl);
     }
 
 

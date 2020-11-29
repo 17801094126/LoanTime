@@ -1,6 +1,7 @@
 package com.loan.time.ui.list;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.ImageView;
@@ -15,8 +16,11 @@ import com.loan.time.adaperts.HomeRvAdapert;
 import com.loan.time.bean.ResponseBean;
 import com.loan.time.mvp.MVPBaseActivity;
 import com.loan.time.ui.platformDetail.PlatformDetailsActivity;
+import com.loan.time.ui.web.WebActivity;
 import com.loan.time.utils.SingleClick;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,6 +66,7 @@ public class ListActivity extends MVPBaseActivity<ListContract.View, ListPresent
 
     }
 
+
     @SingleClick
     @OnClick(R.id.finish)
     public void onViewClicked() {
@@ -87,8 +92,24 @@ public class ListActivity extends MVPBaseActivity<ListContract.View, ListPresent
 
     @Override
     public void onClickerListener(int position) {
-        Intent intent = new Intent(this, PlatformDetailsActivity.class);
-        intent.putExtra(PlatformDetailsActivity.PlatformBean,proList.get(position));
-        startActivity(intent);
+        String innerProductUrl = proList.get(position).getInnerProductUrl();
+        try {
+            URL url=new URL(innerProductUrl);
+            if (url.getHost().equals("play.google.com")){
+                Uri uri = Uri.parse(innerProductUrl);
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+            }else if (proList.get(position).getInnerProductUrl().endsWith("apk")){
+                Uri uri = Uri.parse(innerProductUrl);
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+            }else{
+                Intent intent=new Intent(this, WebActivity.class);
+                intent.putExtra(WebActivity.WebUrl,innerProductUrl);
+                startActivity(intent);
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
     }
 }

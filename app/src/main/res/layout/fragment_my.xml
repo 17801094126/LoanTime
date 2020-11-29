@@ -49,7 +49,13 @@
         android:textColor="@color/c_666666"
         android:layout_marginTop="14dp"
         android:gravity="left"
-        android:text="Instant Rupee is one of India's largest financial information platforms. Instant Rupee can help Instant Rupee is one of India's largest financial information platforms. Instant Rupee can help Instant Rupee is one of India's largest financial information platforms. Instant Rupee can help"/>
+        android:text="LoanTime is one of India's largest financial
+
+information platforms. LoanTime can help
+
+debtors various financial products in India. LoanTime can not only help debtors find loan services,
+
+but also help loan platforms find the right customers, so that both parties can benefit at the same time."/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
