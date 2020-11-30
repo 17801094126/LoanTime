@@ -107,8 +107,19 @@ public class LoginActivity extends MVPBaseActivity<LoginContract.View, LoginPres
         super.initView();
         //设置App标题栏
         initToolBar();
+        loginEdPhone.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                // 此处为得到焦点时的处理内容
+                InputMethodManager inputManager = (InputMethodManager)loginEdPhone.getContext()
+                        .getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputManager.showSoftInput(loginEdPhone,0);
+            } else {
+                // 此处为失去焦点时的处理内容
+            }
+        });
         //获取权限
         initPermission();
+
     }
 
     /**
@@ -189,7 +200,7 @@ public class LoginActivity extends MVPBaseActivity<LoginContract.View, LoginPres
         phone = loginEdPhone.getText().toString().trim();
         if (TextUtils.isEmpty(phone)) {
             Toast.makeText(this, "Please enter phone number", Toast.LENGTH_SHORT).show();
-        } else if (!PhoneNumberCheck.checkCellphone(phone)) {
+        } else if (phone.length()!=10) {
             Toast.makeText(this, "Please enter a valid phone number", Toast.LENGTH_SHORT).show();
         }else{
             mPresenter.getLoginImg(this,phone);

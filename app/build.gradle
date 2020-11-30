@@ -29,7 +29,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField("String", "BASE_URL", "\"https://www.loantime.be/pubapi/\"")
+            buildConfigField("String", "BASE_URL", "\"dev\"")
             signingConfig signingConfigs.loanTime
         }
         //test环境

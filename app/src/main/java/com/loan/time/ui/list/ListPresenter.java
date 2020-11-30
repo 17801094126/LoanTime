@@ -13,6 +13,7 @@ import com.loan.time.mvp.BasePresenterImpl;
 import com.loan.time.network.HttpCode;
 import com.loan.time.network.HttpUtils;
 import com.loan.time.utils.PreferenceUtil;
+import com.loan.time.utils.ToastUtils;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;
@@ -53,6 +54,8 @@ public class ListPresenter  extends BasePresenterImpl<ListContract.View> impleme
                                    if (HttpCode.CODE_SUCCESS.equals(responseBean.getCode())){
                                        if (isAttarchView())
                                            getView().getListData(responseBean.getData().getProductList());
+                                   }else {
+                                       ToastUtils.showToast(context,responseBean.getMessage());
                                    }
                                }
 

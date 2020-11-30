@@ -58,7 +58,6 @@ public class LoginPresenter  extends BasePresenterImpl<LoginContract.View> imple
             RequestBean.DataBean dataBean = initDeviceInfo(context);
             requestBean.setDeviceInfo(dataBean);
             String respone = HttpUtils.getInstance().sendRequest(BuildConfig.BASE_URL, "a_a_0", gson.toJson(requestBean), "{}");
-            Log.e("QQQQ",respone);
             ResponseBean responseBean = gson.fromJson(respone, ResponseBean.class);
             emitter.onNext(responseBean);
         }).subscribeOn(Schedulers.io()) // 指定 subscribe() 发生在 运算 线程
@@ -90,6 +89,8 @@ public class LoginPresenter  extends BasePresenterImpl<LoginContract.View> imple
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+                }else{
+                    ToastUtils.showToast(context,responseBean.getMessage());
                 }
 
             }
@@ -184,6 +185,8 @@ public class LoginPresenter  extends BasePresenterImpl<LoginContract.View> imple
                         }
                         if (isAttarchView())
                             getView().getLoginImg(responseBean.getData().getId(),responseBean.getData().getImage());
+                    }else {
+                        ToastUtils.showToast(context,responseBean.getMessage());
                     }
                 }
 
@@ -243,6 +246,8 @@ public class LoginPresenter  extends BasePresenterImpl<LoginContract.View> imple
                 }else if (HttpCode.CODE_121002.equals(responseBean.getCode())){
                     ToastUtils.showToast(activity,responseBean.getMessage());
                     getLoginImg(activity,mobilePhone);
+                }else {
+                    ToastUtils.showToast(activity,responseBean.getMessage());
                 }
             }
 
