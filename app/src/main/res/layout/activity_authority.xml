@@ -96,7 +96,7 @@
                 android:textColor="@color/c_303541"
                 android:gravity="left"
                 android:layout_marginTop="11dp"
-                android:text="To assess your eligibility and facilitate faster disbursal of your loan, we need   these permissions"/>
+                android:text="To assess your eligibility and facilitate faster disbursal of your loan, we need these permissions"/>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/auth_rv"
                 android:layout_width="match_parent"

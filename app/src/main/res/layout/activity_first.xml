@@ -22,7 +22,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             style="@style/RadioBottomStyle"
-            android:text="首页"
+            android:text="Home"
             android:drawableTop="@drawable/bottom_home" />
 
         <RadioButton
@@ -30,7 +30,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="我的"
+            android:text="My"
             android:drawableTop="@drawable/bottom_my"
             style="@style/RadioBottomStyle"/>
     </RadioGroup>

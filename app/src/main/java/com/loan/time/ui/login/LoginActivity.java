@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,6 +26,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -112,6 +114,13 @@ public class LoginActivity extends MVPBaseActivity<LoginContract.View, LoginPres
         });
         //获取权限
         initPermission();
+        isAgree.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked){
+                loginBt.setBackground(ContextCompat.getDrawable(this,R.drawable.login_bt_back));
+            }else{
+                loginBt.setBackground(ContextCompat.getDrawable(this,R.drawable.login_bt_back_no));
+            }
+        });
 
     }
 
@@ -121,7 +130,7 @@ public class LoginActivity extends MVPBaseActivity<LoginContract.View, LoginPres
     private void initToolBar() {
         toolBar.setPadding(0, getHeight(), 0, 0);
         finish.setVisibility(View.GONE);
-        title.setText("Login");
+        title.setText("Log In");
     }
 
 
@@ -197,9 +206,9 @@ public class LoginActivity extends MVPBaseActivity<LoginContract.View, LoginPres
     private void initLogin() {
         phone = loginEdPhone.getText().toString().trim();
         if (TextUtils.isEmpty(phone)) {
-            Toast.makeText(this, "Please enter phone number", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please enter the phone number in the correct format", Toast.LENGTH_SHORT).show();
         } else if (phone.length()!=10) {
-            Toast.makeText(this, "Please enter a valid phone number", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please enter the phone number in the correct format", Toast.LENGTH_SHORT).show();
         }else{
             mPresenter.getLoginImg(this,phone);
         }

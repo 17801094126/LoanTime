@@ -46,7 +46,7 @@ public class HomeRvAdapert extends RecyclerView.Adapter<HomeRvAdapert.HomeRvHold
     public void onBindViewHolder(@NonNull HomeRvHolder holder, int position) {
         ResponseBean.DataBean.ProductListBean data = mList.get(position);
         holder.tv_name.setText(data.getTitle());
-        holder.tv_price.setText(data.getCurrency()+data.getMaxBorrowAmt());
+        holder.tv_price.setText("₹"+data.getMaxBorrowAmt());
         holder.tv_Interest_number.setText(data.getInterestCycleRate()+"%/Day");
         holder.tv_content.setText(data.getProductIntroduction());
         RequestOptions options=new RequestOptions();
