@@ -11,7 +11,7 @@ import com.loan.time.utils.PreferenceUtil;
 
 import goutil.Goutil;
 
-public class App extends Application implements IExceptionHandler {
+public class App extends Application /*implements IExceptionHandler*/ {
 
     //全局上下文
     public static Context context;
@@ -26,10 +26,10 @@ public class App extends Application implements IExceptionHandler {
         super.onCreate();
         context = this;
         PreferenceUtil.init(this);
-        // step1: 初始化库
+       /* // step1: 初始化库
         DefenseCrash.initialize();
         // setp2: 安装防火墙
-        DefenseCrash.install(this);
+        DefenseCrash.install(this);*/
     }
 
     /**
@@ -90,7 +90,7 @@ public class App extends Application implements IExceptionHandler {
         }
     }
 
-    @Override
+/*    @Override
     public void onCaughtException(Thread thread, Throwable throwable, boolean b) {
         // step3: 打印错误堆栈
         throwable.printStackTrace();
@@ -108,5 +108,5 @@ public class App extends Application implements IExceptionHandler {
         // 这个回调说明在onLayout(),onMeasure() 和 onDraw()中出现了崩溃
         // 这种崩溃会导致绘图异常和编舞者类崩溃
         // 我们建议你在这时候,重启当前的activity或者应用
-    }
+    }*/
 }

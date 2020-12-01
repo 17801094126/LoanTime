@@ -1,17 +1,13 @@
 package com.loan.time.ui.login;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 
-import androidx.core.content.ContextCompat;
-
 import com.google.gson.Gson;
 import com.loan.time.App;
 import com.loan.time.BuildConfig;
-import com.loan.time.R;
 import com.loan.time.banner.LoanDialog;
 import com.loan.time.bean.DecryptBean;
 import com.loan.time.bean.RequestBean;
@@ -25,11 +21,8 @@ import com.loan.time.utils.AppUtils;
 import com.loan.time.utils.PreferenceUtil;
 import com.loan.time.utils.ToastUtils;
 
-import java.sql.PreparedStatement;
 import java.util.List;
-import java.util.logging.Logger;
 
-import goutil.Goutil;
 import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Observer;

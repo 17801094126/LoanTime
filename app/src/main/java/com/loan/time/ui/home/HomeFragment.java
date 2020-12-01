@@ -4,6 +4,7 @@ package com.loan.time.ui.home;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -51,6 +52,8 @@ public class HomeFragment extends MVPBaseFragment<HomeContract.View, HomePresent
     TextView tvQuick;
     @BindView(R.id.smart)
     SmartRefreshLayout smartRefreshLayout;
+    @BindView(R.id.home_img)
+    ImageView homeImg;
     private FirstActivity activity;
     private List<ResponseBean.DataBean.ProductListBean> mList;
 
@@ -82,6 +85,7 @@ public class HomeFragment extends MVPBaseFragment<HomeContract.View, HomePresent
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.home_img:
+                startToList(getResources().getString(R.string.app_name),ListActivity.IN_Home);
                 break;
             case R.id.home_high:
                 startToList(tvHigh.getText().toString().trim(),ListActivity.IN_HIGHQUOTA);

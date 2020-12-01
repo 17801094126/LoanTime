@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView.Adapter;
 
 import com.loan.time.R;
 import com.loan.time.adaperts.HomeRvAdapert;
@@ -48,7 +49,9 @@ public class ListActivity extends MVPBaseActivity<ListContract.View, ListPresent
     public static String IN_HIGHQUOTA = "IN_HIGHQUOTA";
     public static String IN_FASTLENDING = "IN_FASTLENDING";
     public static String IN_RECOMMEND = "IN_RECOMMEND";
+    public static String IN_Home = "IN_Home";
     private ArrayList<ResponseBean.DataBean.ProductListBean> proList = new ArrayList<>();
+    private HomeRvAdapert adapert;
 
     @Override
     protected int getLayoutId() {
@@ -58,6 +61,23 @@ public class ListActivity extends MVPBaseActivity<ListContract.View, ListPresent
     @Override
     protected void initView() {
         super.initView();
+        LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
+        lvRv.setNestedScrollingEnabled(false);
+        lvRv.setLayoutManager(manager);
+        adapert = new HomeRvAdapert(this, proList, 1);
+        lvRv.setAdapter(adapert);
+        adapert.setOnClickListener(this);
+
+    }
+
+    @Override
+    protected void initData() {
+        super.initData();
         Intent intent = getIntent();
         String intExtra = intent.getStringExtra(List_Value);
         String plateKey = intent.getStringExtra(PlateKey);
@@ -67,13 +87,19 @@ public class ListActivity extends MVPBaseActivity<ListContract.View, ListPresent
         } else {
             title.setText("High pass rate");
         }
-        mPresenter.getListData(this, plateKey);
-        listSmart.setOnRefreshListener(refreshLayout -> {
+        if (plateKey.equals(IN_Home)){
+            mPresenter.getHomeData(this);
+        }else{
             mPresenter.getListData(this, plateKey);
+        }
+        listSmart.setOnRefreshListener(refreshLayout -> {
+            if (plateKey.equals(IN_Home)){
+                mPresenter.getHomeData(this);
+            }else{
+                mPresenter.getListData(this, plateKey);
+            }
         });
-
     }
-
 
     @SingleClick
     @OnClick(R.id.finish)
@@ -83,20 +109,23 @@ public class ListActivity extends MVPBaseActivity<ListContract.View, ListPresent
 
     @Override
     public void getListData(List<ResponseBean.DataBean.ProductListBean> mList) {
-        listSmart.finishRefresh();
+        if (listSmart.isRefreshing()){
+            listSmart.finishRefresh();
+        }
         proList.clear();
         proList.addAll(mList);
-        LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false) {
-            @Override
-            public boolean canScrollVertically() {
-                return false;
-            }
-        };
-        lvRv.setNestedScrollingEnabled(false);
-        lvRv.setLayoutManager(manager);
-        HomeRvAdapert adapert = new HomeRvAdapert(this, mList, 1);
-        lvRv.setAdapter(adapert);
-        adapert.setOnClickListener(this);
+        adapert.notifyDataSetChanged();
+
+    }
+
+    @Override
+    public void getHomeData(List<ResponseBean.DataBean.ProductListBean> mList) {
+        if (listSmart.isRefreshing()){
+            listSmart.finishRefresh();
+        }
+        proList.clear();
+        proList.addAll(mList);
+        adapert.notifyDataSetChanged();
     }
 
     @Override
@@ -122,10 +151,4 @@ public class ListActivity extends MVPBaseActivity<ListContract.View, ListPresent
         }
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
 }

@@ -13,9 +13,12 @@ public class ListContract {
     interface View extends BaseView {
         void getListData(List<ResponseBean.DataBean.ProductListBean> mList);
 
+        void getHomeData(List<ResponseBean.DataBean.ProductListBean> mList);
+
     }
 
     interface  Presenter extends BasePresenter<View> {
         void getListData(Context context,String plateKey);
+        void getHomeData(Context context);
     }
 }
