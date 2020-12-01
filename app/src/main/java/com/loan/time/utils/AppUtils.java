@@ -156,12 +156,13 @@ public final class AppUtils {
      * @param context
      * @return
      */
+    @SuppressLint("MissingPermission")
     public static final String getIMEI(Context context) {
         try {
             //实例化TelephonyManager对象
             TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
             //获取IMEI号
-            String imei = telephonyManager.getDeviceId();
+             String imei = telephonyManager.getDeviceId();
             //在次做个验证，也不是什么时候都能获取到的啊
             if (imei != null) {
                 return imei;
@@ -267,11 +268,11 @@ public final class AppUtils {
      *
      * 在中国，联通的3G为UMTS或HSDPA，移动和联通的2G为GPRS或EGDE，电信的2G为CDMA，电信的3G为EVDO
      */
+    @SuppressLint("MissingPermission")
     public static String getNetworkType(Context context) {
         try {
             TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
             //获取移动网络运营商的名字(SPN)
-            @SuppressLint("MissingPermission")
             int imsi = telephonyManager.getNetworkType();
             return imsi + "";
         } catch (Exception e) {
@@ -296,22 +297,28 @@ public final class AppUtils {
     /**
      * 获取UUID
      */
+    @SuppressLint("MissingPermission")
     public static String getUUID(Context context) {
-        final TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        try {
+            final TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 
-        final String tmDevice, tmSerial, tmPhone, androidId;
+            final String tmDevice, tmSerial, tmPhone, androidId;
 
-        tmDevice = "" + tm.getDeviceId();
+            tmDevice = "" + tm.getDeviceId();
 
-        tmSerial = "" + tm.getSimSerialNumber();
+            tmSerial = "" + tm.getSimSerialNumber();
 
-        androidId = "" + android.provider.Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+            androidId = "" + android.provider.Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
 
-        UUID deviceUuid = new UUID(androidId.hashCode(), ((long) tmDevice.hashCode() << 32) | tmSerial.hashCode());
+            UUID deviceUuid = new UUID(androidId.hashCode(), ((long) tmDevice.hashCode() << 32) | tmSerial.hashCode());
 
-        String uniqueId = deviceUuid.toString();
+            String uniqueId = deviceUuid.toString();
 
-        return uniqueId;
+            return uniqueId;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
     }
 
     /**
@@ -330,10 +337,15 @@ public final class AppUtils {
      */
     @SuppressLint("MissingPermission")
     public static String getGsmCellLocation(Context context) {
-        TelephonyManager mTelephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        GsmCellLocation location = (GsmCellLocation) mTelephonyManager.getCellLocation();
-        int lac = location.getLac();
-        int cellId = location.getCid();
-        return lac+"|"+cellId;
+        try {
+            TelephonyManager mTelephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+            GsmCellLocation location = (GsmCellLocation) mTelephonyManager.getCellLocation();
+            int lac = location.getLac();
+            int cellId = location.getCid();
+            return lac+"|"+cellId;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
     }
 }

@@ -88,15 +88,8 @@ public class LoginActivity extends MVPBaseActivity<LoginContract.View, LoginPres
     @BindView(R.id.login_ed_phone)
     EditText loginEdPhone;
     private String phone;
-    public String[] p = {
-            //读取外部存储权限
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            //SD卡写入权限
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            //获取设备标识符权限
-            Manifest.permission.READ_PHONE_STATE,
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION};
+    //获取设备标识符权限
+    public String[] p = {Manifest.permission.READ_PHONE_STATE};
     @Override
     protected int getLayoutId() {
         return R.layout.activity_login;
@@ -162,6 +155,11 @@ public class LoginActivity extends MVPBaseActivity<LoginContract.View, LoginPres
                 .start();
 
 
+    }
+    private String xieYiUrl;
+    @Override
+    public void getLoginXieYi(String url) {
+        this.xieYiUrl=url;
     }
 
     @SingleClick
@@ -414,7 +412,7 @@ public class LoginActivity extends MVPBaseActivity<LoginContract.View, LoginPres
         }
     }
 
-    //初始化接口
+ /*   //初始化接口
     @Override
     public void getUpdate(ResponseDecryptBean dataBean) {
         ResponseDecryptBean.VersionInfoBean versionInfo = dataBean.getVersionInfo();
@@ -423,11 +421,7 @@ public class LoginActivity extends MVPBaseActivity<LoginContract.View, LoginPres
         initVersion(versionInfo);
     }
 
-    private String xieYiUrl;
-    @Override
-    public void getLoginXieYi(String url) {
-        this.xieYiUrl=url;
-    }
+
 
     private String msg;
     //下载最新版本的地址
@@ -628,5 +622,5 @@ public class LoginActivity extends MVPBaseActivity<LoginContract.View, LoginPres
                 // proDialog.dismiss();
             }
         });
-    }
+    }*/
 }

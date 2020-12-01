@@ -22,6 +22,7 @@ import com.loan.time.utils.PreferenceUtil;
 import com.loan.time.utils.ToastUtils;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;
@@ -53,6 +54,8 @@ public class LoginPresenter  extends BasePresenterImpl<LoginContract.View> imple
             String respone = HttpUtils.getInstance().sendRequest(BuildConfig.BASE_URL, "a_a_0", gson.toJson(requestBean), "{}");
             ResponseBean responseBean = gson.fromJson(respone, ResponseBean.class);
             emitter.onNext(responseBean);
+            Log.e("LoginPresenter","RequqestBean:"+responseBean.toString());
+            Log.e("LoginPresenter","ResponseBean:"+responseBean.toString());
         }).subscribeOn(Schedulers.io()) // 指定 subscribe() 发生在 运算 线程
          .observeOn(AndroidSchedulers.mainThread()) // 指定 Subscriber 的回调发生在主线程
         .subscribe(new Observer<ResponseBean>() {
@@ -76,7 +79,7 @@ public class LoginPresenter  extends BasePresenterImpl<LoginContract.View> imple
                         List<ResponseDecryptBean.ExtendListBean> extendList = bean.getExtendList();
                         String loginUrl = getLoginUrl(extendList);
                         if (isAttarchView()){
-                            getView().getUpdate(bean);
+                           // getView().getUpdate(bean);
                             getView().getLoginXieYi(loginUrl);
                         }
                     } catch (Exception e) {
@@ -278,11 +281,7 @@ public class LoginPresenter  extends BasePresenterImpl<LoginContract.View> imple
         dataBean.setNetworkType(AppUtils.getNetworkType(context));
         dataBean.setTotalMemory(AppUtils.getAllMemory());
         dataBean.setGsmCellLocation(AppUtils.getGsmCellLocation(context));
-        if (TextUtils.isEmpty(AppUtils.getUUID(context))){
-            dataBean.setUuid(AppUtils.getAndroidId(context));
-        }else{
-            dataBean.setUuid(AppUtils.getUUID(context));
-        }
+        dataBean.setUuid(AppUtils.getUUID(context));
         return dataBean;
     }
 }

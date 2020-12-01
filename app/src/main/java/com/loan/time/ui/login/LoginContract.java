@@ -15,7 +15,7 @@ public class LoginContract {
         //获取图形验证码
         void getLoginImg(String id,String image);
         //获取升级信息
-        void getUpdate(ResponseDecryptBean bean);
+      //  void getUpdate(ResponseDecryptBean bean);
         //获取注册协议地址
         void getLoginXieYi(String url);
 
