@@ -18,7 +18,7 @@
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="请输入下面安全码"
+            android:text="Please enter the security code"
             android:textColor="@color/black"
             android:textSize="@dimen/ts_13"
             app:layout_constraintStart_toStartOf="parent"
