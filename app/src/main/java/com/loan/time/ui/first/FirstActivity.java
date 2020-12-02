@@ -54,7 +54,6 @@ public class FirstActivity extends MVPBaseActivity<FirstContract.View, FirstPres
     @Override
     protected void initView() {
         super.initView();
-        ScreenAdapterTools.getInstance().loadView(getWindow().getDecorView());
         mList = getIntent().getParcelableArrayListExtra(HomeResult);
         manager = getSupportFragmentManager();
         RadioButton childAt = (RadioButton) rg.getChildAt(0);
@@ -62,7 +61,6 @@ public class FirstActivity extends MVPBaseActivity<FirstContract.View, FirstPres
         ImmersionBar.with(FirstActivity.this)
                 .transparentBar()
                 .statusBarDarkFont(false) .init();
-
         if (mList==null){
             if (homeFragment == null) {
                 homeFragment = HomeFragment.newInstance();

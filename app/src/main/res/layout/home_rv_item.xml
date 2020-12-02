@@ -36,6 +36,7 @@
         app:layout_constraintLeft_toRightOf="@+id/img_item"
         app:layout_constraintTop_toTopOf="@+id/img_item"
         app:layout_constraintBottom_toBottomOf="@+id/img_item"/>
+
     <TextView
         android:id="@+id/tv_bt"
         android:layout_width="93.5dp"
@@ -59,6 +60,13 @@
         android:textColor="@color/c_999999"
         android:text="Amount"
         android:layout_marginTop="7.5dp"/>
+    <View
+        android:layout_width="0.5dp"
+        android:layout_height="36.5dp"
+        android:background="@color/c_EEEEEE"
+        app:layout_constraintStart_toStartOf="@+id/item_back"
+        android:layout_marginLeft="150.5dp"
+        app:layout_constraintTop_toTopOf="@+id/tv_amuount"/>
     <TextView
         android:id="@+id/tv_price"
         android:layout_width="wrap_content"

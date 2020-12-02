@@ -10,6 +10,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 
+import com.yatoooon.screenadaptation.ScreenAdapterTools;
+
 import java.lang.reflect.ParameterizedType;
 
 import butterknife.ButterKnife;
@@ -36,6 +38,7 @@ public abstract class MVPBaseFragment<V extends BaseView,T extends BasePresenter
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         inflate = inflater.inflate(getLayoutId(), container, false);
+        ScreenAdapterTools.getInstance().loadView(inflate);
         unbinder = ButterKnife.bind(this, inflate);
         initView();
         return inflate;

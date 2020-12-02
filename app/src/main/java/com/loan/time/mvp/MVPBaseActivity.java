@@ -16,16 +16,12 @@ import com.gyf.immersionbar.ImmersionBar;
 import com.loan.time.App;
 import com.loan.time.utils.ActivityCollector;
 import com.loan.time.utils.PreferenceUtil;
+import com.yatoooon.screenadaptation.ScreenAdapterTools;
 
 import java.lang.reflect.ParameterizedType;
 
 import butterknife.ButterKnife;
 
-
-/**
- * MVPPlugin
- *  邮箱 784787081@qq.com
- */
 
 public abstract class MVPBaseActivity<V extends BaseView,T extends BasePresenterImpl<V>> extends AppCompatActivity implements BaseView{
     public T mPresenter;
@@ -35,6 +31,7 @@ public abstract class MVPBaseActivity<V extends BaseView,T extends BasePresenter
         super.onCreate(savedInstanceState);
         PreferenceUtil.init(this);
         setContentView(getLayoutId());
+
         if (Build.VERSION.SDK_INT>=23){
             ImmersionBar.with(this)
                     .statusBarDarkFont(true)//状态栏字体是深色，不写默认为亮色
@@ -48,6 +45,9 @@ public abstract class MVPBaseActivity<V extends BaseView,T extends BasePresenter
         App.context=this;
         mPresenter= getInstance(this,1);
         mPresenter.attachView((V) this);
+        ScreenAdapterTools.getInstance().reset(this);//如果希望android7.0分屏也适配的话,加上这句
+        //在setContentView();后面加上适配语句
+        ScreenAdapterTools.getInstance().loadView(getWindow().getDecorView());
         //绑定ButterKnifet
         ButterKnife.bind(this);
         initView();
