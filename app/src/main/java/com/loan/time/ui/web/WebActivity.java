@@ -186,19 +186,6 @@ public class WebActivity extends AppCompatActivity {
         requestBean.setDeviceId(PreferenceUtil.getString(App.DeviceId,""));
         requestBean.setDeviceInfo(initDeviceInfo(this));
         String s = new Gson().toJson(requestBean);
-        s.replaceAll("\\{","$");
-        s.replaceAll("\\}","*");
-        s.replaceAll("\\\"","%");
-        /*String user = App.getUserPhone();//手机号
-        String applicantName = PreferenceUtil.getString("applicantName", null);//姓名
-        String cardId = PreferenceUtil.getString("cardId", null);//身份证号
-        StringBuffer sb = new StringBuffer();
-        sb.append("$");
-        sb.append("%name%:%").append(applicantName).append("%,%card%:%")
-                .append(cardId).append("%,%phone%:%").append(user)
-                .append("%,%institutionCode%:%").append("369571").append("%,%password%:%")
-                .append("sus3rrzie2dut6d").append("%,%className%:%").append(App.context.getPackageName())
-                .append("%,%channelId%:%01%*");*/
         return s;
     }
 
