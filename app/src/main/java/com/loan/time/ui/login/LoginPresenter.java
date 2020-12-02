@@ -17,6 +17,7 @@ import com.loan.time.mvp.BasePresenterImpl;
 import com.loan.time.network.HttpCode;
 import com.loan.time.network.HttpUtils;
 import com.loan.time.ui.authority.AuthorityActivity;
+import com.loan.time.ui.first.FirstActivity;
 import com.loan.time.utils.AppUtils;
 import com.loan.time.utils.PreferenceUtil;
 import com.loan.time.utils.ToastUtils;
@@ -135,7 +136,6 @@ public class LoginPresenter  extends BasePresenterImpl<LoginContract.View> imple
                 RequestBean.DataBean dataBean = initDeviceInfo(context);
                 requestBean.setDeviceInfo(dataBean);
                 String respone = HttpUtils.getInstance().sendRequest(BuildConfig.BASE_URL, "a_a_0", gson.toJson(requestBean), "{}");
-                Log.e("QQQQ",respone);
                 ResponseBean responseBean = gson.fromJson(respone, ResponseBean.class);
                 String deviceId = responseBean.getData().getDeviceId();
                 String deviceToken = responseBean.getData().getDeviceToken();
@@ -232,15 +232,19 @@ public class LoginPresenter  extends BasePresenterImpl<LoginContract.View> imple
             @Override
             public void onNext(ResponseBean responseBean) {
                 loanDialog.dismiss();
-                Log.e("QQQ",responseBean.toString());
                 if (HttpCode.CODE_SUCCESS.equals(responseBean.getCode())){
                     PreferenceUtil.commitString(App.Uid,responseBean.getData().getUid());
                     PreferenceUtil.commitString(App.Token,responseBean.getData().getToken());
                     PreferenceUtil.commitString(App.Phone,mobilePhone);
-                    activity.startActivity(new Intent(activity, AuthorityActivity.class));
-                    activity.finish();
+                    if (PreferenceUtil.getBoolean(App.IsAuthority,false)){
+                        activity.startActivity(new Intent(activity, FirstActivity.class));
+                        activity.finish();
+                    }else{
+                        activity.startActivity(new Intent(activity, AuthorityActivity.class));
+                        activity.finish();
+                    }
                 }else if (HttpCode.CODE_121002.equals(responseBean.getCode())){
-                    ToastUtils.showToast(activity,responseBean.getMessage());
+                    ToastUtils.showToast(activity,"Verification code error");
                     getLoginImg(activity,mobilePhone);
                 }else {
                     ToastUtils.showToast(activity,responseBean.getMessage());

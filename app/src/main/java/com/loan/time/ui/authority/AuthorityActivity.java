@@ -13,11 +13,13 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.loan.time.App;
 import com.loan.time.R;
 import com.loan.time.adaperts.AuthorityRv;
 import com.loan.time.bean.RvBean;
 import com.loan.time.mvp.MVPBaseActivity;
 import com.loan.time.ui.first.FirstActivity;
+import com.loan.time.utils.PreferenceUtil;
 import com.loan.time.utils.SingleClick;
 import com.loan.time.utils.ToastUtils;
 
@@ -105,6 +107,7 @@ public class AuthorityActivity extends MVPBaseActivity<AuthorityContract.View, A
     @OnClick(R.id.login_bt)
     public void onViewClicked() {
         if (checkAu.isChecked()){
+            PreferenceUtil.commitBoolean(App.IsAuthority,true);
             startActivity(new Intent(this, FirstActivity.class));
             finish();
         }else{

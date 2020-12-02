@@ -20,6 +20,7 @@ public class App extends Application /*implements IExceptionHandler*/ {
     public static String Uid="UID";
     public static String Token="Token";
     public static String Phone="Phone";
+    public static String IsAuthority="IsAuthority";
 
     @Override
     public void onCreate() {

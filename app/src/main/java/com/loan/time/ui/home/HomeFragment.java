@@ -3,6 +3,8 @@ package com.loan.time.ui.home;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -55,7 +57,8 @@ public class HomeFragment extends MVPBaseFragment<HomeContract.View, HomePresent
     @BindView(R.id.home_img)
     ImageView homeImg;
     private FirstActivity activity;
-    private List<ResponseBean.DataBean.ProductListBean> mList;
+    private ArrayList<ResponseBean.DataBean.ProductListBean> mList=new ArrayList<>();
+    private HomeRvAdapert adapert;
 
     @Override
     public int getLayoutId() {
@@ -63,6 +66,14 @@ public class HomeFragment extends MVPBaseFragment<HomeContract.View, HomePresent
         return R.layout.fragment_home;
     }
 
+    public static HomeFragment newInstance(ArrayList<ResponseBean.DataBean.ProductListBean> list) {
+            HomeFragment homeFragment = new HomeFragment();
+            Bundle bundle = new Bundle();
+            bundle.putParcelableArrayList(FirstActivity.HomeResult, list);
+            homeFragment.setArguments(bundle);
+            return homeFragment;
+
+    }
     public static HomeFragment newInstance() {
         return new HomeFragment();
     }
@@ -70,14 +81,37 @@ public class HomeFragment extends MVPBaseFragment<HomeContract.View, HomePresent
     @Override
     protected void initView() {
         super.initView();
-
-        mPresenter.getHomeData(activity);
-
+        initAdapert();
+        initHomeData();
         smartRefreshLayout.setOnRefreshListener(refreshLayout -> {
             mPresenter.getHomeData(activity);
-
         });
 
+    }
+
+    private void initHomeData() {
+        Bundle bundle = getArguments();
+        ArrayList<ResponseBean.DataBean.ProductListBean> resultList = bundle.getParcelableArrayList(FirstActivity.HomeResult);
+        if (resultList!=null&&resultList.size()>0){
+            mList.addAll(resultList);
+            adapert.notifyDataSetChanged();
+        }else{
+            mPresenter.getHomeData(activity);
+        }
+    }
+
+    private void initAdapert() {
+        LinearLayoutManager manager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
+        homeRv.setNestedScrollingEnabled(false);
+        homeRv.setLayoutManager(manager);
+        adapert = new HomeRvAdapert(activity, mList,0);
+        homeRv.setAdapter(adapert);
+        adapert.setOnClickListener(this);
     }
 
     @SingleClick
@@ -107,20 +141,13 @@ public class HomeFragment extends MVPBaseFragment<HomeContract.View, HomePresent
     }
 
     @Override
-    public void getHomeData(List<ResponseBean.DataBean.ProductListBean> mList) {
-        smartRefreshLayout.finishRefresh();
-        this.mList=mList;
-        LinearLayoutManager manager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false) {
-            @Override
-            public boolean canScrollVertically() {
-                return false;
-            }
-        };
-        homeRv.setNestedScrollingEnabled(false);
-        homeRv.setLayoutManager(manager);
-        HomeRvAdapert adapert = new HomeRvAdapert(activity, mList,0);
-        homeRv.setAdapter(adapert);
-        adapert.setOnClickListener(this);
+    public void getHomeData(List<ResponseBean.DataBean.ProductListBean> ormList) {
+        if (smartRefreshLayout.isRefreshing()){
+            smartRefreshLayout.finishRefresh();
+        }
+        mList.clear();
+        mList.addAll(ormList);
+        adapert.notifyDataSetChanged();
     }
 
     @Override

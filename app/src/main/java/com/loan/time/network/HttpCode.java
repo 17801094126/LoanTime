@@ -4,6 +4,8 @@ public class HttpCode {
 
     //网络请求成功
     public static String CODE_SUCCESS="100000";
+    //登录失败
+    public static String CODE_120002="120002";
     //网络请求超时
     public static String CODE_50010="50010";
     //http 响应错误

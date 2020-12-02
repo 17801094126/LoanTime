@@ -1,8 +1,10 @@
 package com.loan.time.ui.first;
 
 import android.Manifest;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -11,12 +13,15 @@ import androidx.fragment.app.FragmentManager;
 
 import com.gyf.immersionbar.ImmersionBar;
 import com.loan.time.R;
+import com.loan.time.bean.ResponseBean;
 import com.loan.time.mvp.MVPBaseActivity;
 import com.loan.time.ui.home.HomeFragment;
 import com.loan.time.ui.my.MyFragment;
 import com.loan.time.utils.FragmentUtils;
 import com.loan.time.utils.SingleClick;
 import com.loan.time.utils.ToastUtils;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 
@@ -34,6 +39,8 @@ public class FirstActivity extends MVPBaseActivity<FirstContract.View, FirstPres
     private boolean isQuit;
     //读写权限
     public static String TAG = FirstActivity.class.getSimpleName();
+    private ArrayList<ResponseBean.DataBean.ProductListBean> mList;
+    public static final String HomeResult="HomeResult";
     FragmentManager manager;
     private HomeFragment homeFragment;
     private MyFragment myFragment;
@@ -46,18 +53,28 @@ public class FirstActivity extends MVPBaseActivity<FirstContract.View, FirstPres
     @Override
     protected void initView() {
         super.initView();
-
+        mList = getIntent().getParcelableArrayListExtra(HomeResult);
         manager = getSupportFragmentManager();
         RadioButton childAt = (RadioButton) rg.getChildAt(0);
         childAt.setChecked(true);
         ImmersionBar.with(FirstActivity.this)
                 .transparentBar()
                 .statusBarDarkFont(false) .init();
-        if (homeFragment == null) {
-            homeFragment = HomeFragment.newInstance();
-            FragmentUtils.addFragment(manager, homeFragment, R.id.first_Frame, false);
-        } else {
-            FragmentUtils.showFragment(homeFragment);
+
+        if (mList==null){
+            if (homeFragment == null) {
+                homeFragment = HomeFragment.newInstance();
+                FragmentUtils.addFragment(manager, homeFragment, R.id.first_Frame, false);
+            } else {
+                FragmentUtils.showFragment(homeFragment);
+            }
+        }else{
+            if (homeFragment == null) {
+                homeFragment = HomeFragment.newInstance(mList);
+                FragmentUtils.addFragment(manager, homeFragment, R.id.first_Frame, false);
+            } else {
+                FragmentUtils.showFragment(homeFragment);
+            }
         }
 
         //底部导航栏点击事件

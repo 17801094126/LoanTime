@@ -37,7 +37,6 @@ import com.loan.time.R;
 import com.loan.time.api.NumberProgressBar;
 import com.loan.time.bean.ResponseDecryptBean;
 import com.loan.time.mvp.MVPBaseActivity;
-import com.loan.time.ui.authority.AuthorityActivity;
 import com.loan.time.ui.first.FirstActivity;
 import com.loan.time.ui.web.WebActivity;
 import com.loan.time.utils.ActivityCollector;
