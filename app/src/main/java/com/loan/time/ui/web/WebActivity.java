@@ -181,7 +181,7 @@ public class WebActivity extends AppCompatActivity {
         RequestBean requestBean = new RequestBean();
         requestBean.setDeviceToken(PreferenceUtil.getString(App.DeviceToken,""));
         requestBean.setUid(PreferenceUtil.getString(App.Uid,""));
-        requestBean.setTerminal_name(String.valueOf(R.string.app_name));
+        requestBean.setTerminal_name("LoanTime");
         requestBean.setToken(PreferenceUtil.getString(App.Token,""));
         requestBean.setDeviceId(PreferenceUtil.getString(App.DeviceId,""));
         requestBean.setDeviceInfo(initDeviceInfo(this));

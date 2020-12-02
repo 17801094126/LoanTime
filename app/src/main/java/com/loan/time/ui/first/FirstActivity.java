@@ -20,6 +20,7 @@ import com.loan.time.ui.my.MyFragment;
 import com.loan.time.utils.FragmentUtils;
 import com.loan.time.utils.SingleClick;
 import com.loan.time.utils.ToastUtils;
+import com.yatoooon.screenadaptation.ScreenAdapterTools;
 
 import java.util.ArrayList;
 
@@ -53,6 +54,7 @@ public class FirstActivity extends MVPBaseActivity<FirstContract.View, FirstPres
     @Override
     protected void initView() {
         super.initView();
+        ScreenAdapterTools.getInstance().loadView(getWindow().getDecorView());
         mList = getIntent().getParcelableArrayListExtra(HomeResult);
         manager = getSupportFragmentManager();
         RadioButton childAt = (RadioButton) rg.getChildAt(0);

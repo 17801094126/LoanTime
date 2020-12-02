@@ -244,7 +244,7 @@ public class LoginPresenter  extends BasePresenterImpl<LoginContract.View> imple
                         activity.finish();
                     }
                 }else if (HttpCode.CODE_121002.equals(responseBean.getCode())){
-                    ToastUtils.showToast(activity,"Verification code error");
+                    ToastUtils.showToast(activity,"Please enter the correct security code");
                     getLoginImg(activity,mobilePhone);
                 }else {
                     ToastUtils.showToast(activity,responseBean.getMessage());

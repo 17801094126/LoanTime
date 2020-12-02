@@ -70,6 +70,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/login_phone_back"
         android:background="@null"
         android:maxLength="10"
+        android:numeric="integer"
         android:layout_marginLeft="60dp"
         android:layout_marginRight="20dp"
         android:textSize="@dimen/ts_15"

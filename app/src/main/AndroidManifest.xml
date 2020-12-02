@@ -49,10 +49,16 @@
             android:name="android.max_aspect"
             android:value="2.4" />
         <meta-data
-            android:name="design_width_in_dp"
+            android:name="fontsize"
+            android:value="1.0" />   //全局字体的大小倍数,有时候老板会觉得你的所有的字小了或者大了,你总不能一个一个去改吧
+        <meta-data
+            android:name="unit"
+            android:value="px" />   //你的布局里面用的是px这就写px,你的布局里面用的是dp这就写dp,要统一,不要一会儿px一会儿dp,字体也用px或者dp,不要用sp,微信qq用的肯定不是sp.
+        <meta-data
+            android:name="designwidth"
             android:value="375" />
         <meta-data
-            android:name="design_height_in_dp"
+            android:name="designdpi"
             android:value="667" />
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

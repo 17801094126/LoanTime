@@ -74,7 +74,8 @@ dependencies {
     //    Okgo
     implementation 'com.lzy.net:okgo:3.0.4'
     implementation(name: 'goutil-v1.0.0', ext: 'aar')
-
+    //适配
+    implementation 'me.yatoooon:screenadaptation:1.1.2'
     //     gson解析
     implementation 'com.google.code.gson:gson:2.8.6'
     // 基础依赖包，必须要依赖

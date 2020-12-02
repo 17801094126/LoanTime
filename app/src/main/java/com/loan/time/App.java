@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import com.android.tony.defenselib.DefenseCrash;
 import com.android.tony.defenselib.handler.IExceptionHandler;
 import com.loan.time.utils.PreferenceUtil;
+import com.yatoooon.screenadaptation.ScreenAdapterTools;
 
 import goutil.Goutil;
 
@@ -27,7 +28,9 @@ public class App extends Application /*implements IExceptionHandler*/ {
         super.onCreate();
         context = this;
         PreferenceUtil.init(this);
-       /* // step1: 初始化库
+        ScreenAdapterTools.init(this);
+
+        /* // step1: 初始化库
         DefenseCrash.initialize();
         // setp2: 安装防火墙
         DefenseCrash.install(this);*/
