@@ -16,6 +16,7 @@ package com.loan.time.utils; /**
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.ContentResolver;
@@ -35,6 +36,8 @@ import android.telephony.gsm.GsmCellLocation;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
+import android.view.Window;
 import android.view.WindowManager;
 
 import androidx.core.app.ActivityCompat;
@@ -48,6 +51,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.UUID;
@@ -348,4 +353,79 @@ public final class AppUtils {
             return "";
         }
     }
+
+    public static boolean setMiuiStatusBarDarkMode(Activity activity, boolean darkmode) {
+        Class<? extends Window> clazz = activity.getWindow().getClass();
+        try {
+            int darkModeFlag = 0;
+            Class<?> layoutParams = Class.forName("android.view.MiuiWindowManager$LayoutParams");
+            Field field = layoutParams.getField("EXTRA_FLAG_STATUS_BAR_DARK_MODE");
+            darkModeFlag = field.getInt(layoutParams);
+            Method extraFlags = clazz.getMethod("setExtraFlags", int.class, int.class);
+            extraFlags.invoke(activity.getWindow(), darkmode ? darkModeFlag : 0, darkModeFlag);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static boolean setMeizuStatusDarkIcon(Activity activity, boolean b) {
+        boolean result = false;
+        if (activity != null) {
+            try {
+                WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
+                Field darkFlag = WindowManager.LayoutParams.class
+                        .getDeclaredField("MEIZU_FLAG_DARK_STATUS_BAR_ICON");
+                Field meizuFlags = WindowManager.LayoutParams.class
+                        .getDeclaredField("meizuFlags");
+                darkFlag.setAccessible(true);
+                meizuFlags.setAccessible(true);
+                int bit = darkFlag.getInt(null);
+                int value = meizuFlags.getInt(lp);
+                if (b) {
+                    value |= bit;
+                } else {
+                    value &= ~bit;
+                }
+                meizuFlags.setInt(lp, value);
+                activity.getWindow().setAttributes(lp);
+                result = true;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    public static boolean hasSoftKeys(WindowManager windowManager) {
+        Display display = windowManager.getDefaultDisplay();
+        DisplayMetrics realDisplayMetrics = new DisplayMetrics();
+        display.getRealMetrics(realDisplayMetrics);
+        int realHeight = realDisplayMetrics.heightPixels;
+        int realWidth = realDisplayMetrics.widthPixels;
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        display.getMetrics(displayMetrics);
+        int disHeight = displayMetrics.heightPixels;
+        int disWidth = displayMetrics.widthPixels;
+        return (realWidth - disWidth) > 0 || (realHeight - disHeight) > 0;
+    }
+    public static void setStatus(Activity activity) {
+        setMeizuStatusDarkIcon(activity, true);
+        setMiuiStatusBarDarkMode(activity, true);
+        if (hasSoftKeys(activity.getWindowManager())) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                // 透明状态栏
+                activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            }
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+
+                activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
+
+                activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+            }
+        }
+    }
+
 }

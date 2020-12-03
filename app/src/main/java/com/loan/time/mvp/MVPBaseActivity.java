@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.gyf.immersionbar.ImmersionBar;
 import com.loan.time.App;
 import com.loan.time.utils.ActivityCollector;
+import com.loan.time.utils.AppUtils;
 import com.loan.time.utils.PreferenceUtil;
 import com.yatoooon.screenadaptation.ScreenAdapterTools;
 
@@ -43,6 +44,7 @@ public abstract class MVPBaseActivity<V extends BaseView,T extends BasePresenter
                     .statusBarAlpha(0.3f)  //状态栏透明度，不写默认0.0f
                     .init();
         }
+        AppUtils.setStatus(this);
         App.context=this;
         mPresenter= getInstance(this,1);
         mPresenter.attachView((V) this);

@@ -44,7 +44,7 @@ public class LoginPresenter  extends BasePresenterImpl<LoginContract.View> imple
     @Override
     public void getUpdate(Context context) {
         loanDialog=LoanDialog.show(context,false);
-        Observable.create((ObservableOnSubscribe<ResponseBean>) emitter -> {
+        Observable.create((ObservableOnSubscribe<String>) emitter -> {
             RequestBean requestBean = new RequestBean();
             requestBean.setDeviceToken("");
             requestBean.setDeviceId("");
@@ -53,42 +53,47 @@ public class LoginPresenter  extends BasePresenterImpl<LoginContract.View> imple
             RequestBean.DataBean dataBean = initDeviceInfo(context);
             requestBean.setDeviceInfo(dataBean);
             String respone = HttpUtils.getInstance().sendRequest(BuildConfig.BASE_URL, "a_a_0", gson.toJson(requestBean), "{}");
-            ResponseBean responseBean = gson.fromJson(respone, ResponseBean.class);
-            emitter.onNext(responseBean);
-            Log.e("LoginPresenter","RequqestBean:"+responseBean.toString());
-            Log.e("LoginPresenter","ResponseBean:"+responseBean.toString());
+            emitter.onNext(respone);
+            Log.e("LoginPresenter","RequqestBean:"+requestBean.toString());
         }).subscribeOn(Schedulers.io()) // 指定 subscribe() 发生在 运算 线程
          .observeOn(AndroidSchedulers.mainThread()) // 指定 Subscriber 的回调发生在主线程
-        .subscribe(new Observer<ResponseBean>() {
+        .subscribe(new Observer<String>() {
             @Override
             public void onSubscribe(Disposable d) {
             }
 
             @Override
-            public void onNext(ResponseBean responseBean) {
+            public void onNext(String str) {
                 //主线程执行的方法
                 loanDialog.dismiss();
-                if (HttpCode.CODE_SUCCESS.equals(responseBean.getCode())){
-                    PreferenceUtil.commitString(App.DeviceId,responseBean.getData().getDeviceId());
-                    PreferenceUtil.commitString(App.DeviceToken,responseBean.getData().getDeviceToken());
-                    try {
-                        DecryptBean decryptBean = new DecryptBean();
-                        byte[] decrypt = HttpUtils.getInstance().decrypt(gson.toJson(decryptBean), responseBean.getData().getConfig());
-                        String s = new String(decrypt);
-                        Log.e("LoginActivity",s);
-                        ResponseDecryptBean bean = new Gson().fromJson(s, ResponseDecryptBean.class);
-                        List<ResponseDecryptBean.ExtendListBean> extendList = bean.getExtendList();
-                        String loginUrl = getLoginUrl(extendList);
-                        if (isAttarchView()){
-                           // getView().getUpdate(bean);
-                            getView().getLoginXieYi(loginUrl);
+                try {
+                    ResponseBean responseBean = gson.fromJson(str, ResponseBean.class);
+                    Log.e("LoginPresenter","ResponseBean:"+responseBean.toString());
+                    if (HttpCode.CODE_SUCCESS.equals(responseBean.getCode())){
+                        PreferenceUtil.commitString(App.DeviceId,responseBean.getData().getDeviceId());
+                        PreferenceUtil.commitString(App.DeviceToken,responseBean.getData().getDeviceToken());
+                        try {
+                            DecryptBean decryptBean = new DecryptBean();
+                            byte[] decrypt = HttpUtils.getInstance().decrypt(gson.toJson(decryptBean), responseBean.getData().getConfig());
+                            String s = new String(decrypt);
+                            Log.e("LoginActivity",s);
+                            ResponseDecryptBean bean = new Gson().fromJson(s, ResponseDecryptBean.class);
+                            List<ResponseDecryptBean.ExtendListBean> extendList = bean.getExtendList();
+                            String loginUrl = getLoginUrl(extendList);
+                            if (isAttarchView()){
+                                // getView().getUpdate(bean);
+                                getView().getLoginXieYi(loginUrl);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    }else{
+                        ToastUtils.showToast(context,responseBean.getMessage());
                     }
-                }else{
-                    ToastUtils.showToast(context,responseBean.getMessage());
+                }catch (Exception e){
+                    ToastUtils.showToast(context,str);
                 }
+
 
             }
 

@@ -61,10 +61,10 @@ public class FirstActivity extends MVPBaseActivity<FirstContract.View, FirstPres
     protected void initView() {
         super.initView();
         //隐藏华为虚拟按键
-        Window window = getWindow();
+        /*Window window = getWindow();
         WindowManager.LayoutParams params = window.getAttributes();
         params.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION|View.SYSTEM_UI_FLAG_IMMERSIVE;
-        window.setAttributes(params);
+        window.setAttributes(params);*/
         mList = getIntent().getParcelableArrayListExtra(HomeResult);
         manager = getSupportFragmentManager();
         RadioButton childAt = (RadioButton) rg.getChildAt(0);

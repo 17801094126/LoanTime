@@ -76,8 +76,38 @@ public class SplashActivity extends MVPBaseActivity<SplashContract.View, SplashP
     public void initView() {
 
         if (TextUtils.isEmpty(PreferenceUtil.getString(App.Token,""))){
-            handler.postDelayed(runnable, 2000);
-            PreferenceUtil.commitInt(NUM,1);
+            if (AndPermission.hasPermissions(this,p)){
+                handler.postDelayed(runnable, 2000);
+                PreferenceUtil.commitInt(NUM,1);
+            }else{
+                AndPermission.with(this)
+                        .runtime()
+                        .permission(p)
+                        .onGranted(permissions -> {
+                            if (AndPermission.hasPermissions(SplashActivity.this, p)) {
+                                //获取到权限
+                                //获取App基本信息以及升级接口
+                                handler.postDelayed(runnable, 2000);
+                                PreferenceUtil.commitInt(NUM,1);
+                            } else {
+                                //未获取到权限
+                                DialogHelp.showNormalDialog(this);
+                            }
+                        })
+                        .onDenied(permissions -> {
+                            if (AndPermission.hasPermissions(SplashActivity.this, p)) {
+                                //获取到权限
+                                //获取App基本信息以及升级接口
+                                handler.postDelayed(runnable, 2000);
+                                PreferenceUtil.commitInt(NUM,1);
+                            } else {
+                                //未获取到权限
+                                DialogHelp.showNormalDialog(this);
+                            }
+                        })
+                        .start();
+            }
+
         }else{
             if (AndPermission.hasPermissions(this,p)){
                 mPresenter.initModel(this);

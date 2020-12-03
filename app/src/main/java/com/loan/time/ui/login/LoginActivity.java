@@ -112,7 +112,11 @@ public class LoginActivity extends MVPBaseActivity<LoginContract.View, LoginPres
             }
         });
         //获取权限
-        initPermission();
+        if (!AndPermission.hasPermissions(LoginActivity.this, p)){
+            initPermission();
+        }else{
+            mPresenter.getUpdate(this);
+        }
         isAgree.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked){
                 loginBt.setBackground(ContextCompat.getDrawable(this,R.drawable.login_bt_back));
