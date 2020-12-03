@@ -121,9 +121,9 @@ public class AuthorityActivity extends MVPBaseActivity<AuthorityContract.View, A
                 finish();
             }
 
-        }else{
+        }/*else{
             //请您同意权限
             ToastUtils.showToast(this,"Please agree to the permissions！");
-        }
+        }*/
     }
 }

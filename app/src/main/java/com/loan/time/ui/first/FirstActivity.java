@@ -2,9 +2,14 @@ package com.loan.time.ui.first;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowInsets;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -55,6 +60,10 @@ public class FirstActivity extends MVPBaseActivity<FirstContract.View, FirstPres
     @Override
     protected void initView() {
         super.initView();
+        Window window = getWindow();
+        WindowManager.LayoutParams params = window.getAttributes();
+        params.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION|View.SYSTEM_UI_FLAG_IMMERSIVE;
+        window.setAttributes(params);
         mList = getIntent().getParcelableArrayListExtra(HomeResult);
         manager = getSupportFragmentManager();
         RadioButton childAt = (RadioButton) rg.getChildAt(0);
@@ -148,4 +157,6 @@ public class FirstActivity extends MVPBaseActivity<FirstContract.View, FirstPres
                 break;
         }
     }
+
+
 }
