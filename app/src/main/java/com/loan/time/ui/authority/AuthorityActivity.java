@@ -2,6 +2,7 @@ package com.loan.time.ui.authority;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -58,6 +59,7 @@ public class AuthorityActivity extends MVPBaseActivity<AuthorityContract.View, A
     @Override
     protected void initView() {
         super.initView();
+
         toolBar.setPadding(0, getHeight(), 0, 0);
         finish.setVisibility(View.GONE);
         title.setText("Permission statement");
@@ -108,8 +110,17 @@ public class AuthorityActivity extends MVPBaseActivity<AuthorityContract.View, A
     public void onViewClicked() {
         if (checkAu.isChecked()){
             PreferenceUtil.commitBoolean(App.IsAuthority,true);
-            startActivity(new Intent(this, FirstActivity.class));
-            finish();
+            ArrayList<Parcelable> parcelableArrayListExtra = getIntent().getParcelableArrayListExtra(FirstActivity.HomeResult);
+            Intent homeIntent = new Intent(this, FirstActivity.class);
+            if (parcelableArrayListExtra==null){
+                startActivity(homeIntent);
+                finish();
+            }else{
+                homeIntent.putParcelableArrayListExtra(FirstActivity.HomeResult,parcelableArrayListExtra);
+                startActivity(homeIntent);
+                finish();
+            }
+
         }else{
             //请您同意权限
             ToastUtils.showToast(this,"Please agree to the permissions！");

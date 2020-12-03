@@ -20,6 +20,7 @@ import com.loan.time.ui.my.MyFragment;
 import com.loan.time.utils.FragmentUtils;
 import com.loan.time.utils.SingleClick;
 import com.loan.time.utils.ToastUtils;
+import com.loan.time.utils.VirturlUtil;
 import com.yatoooon.screenadaptation.ScreenAdapterTools;
 
 import java.util.ArrayList;

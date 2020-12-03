@@ -33,7 +33,7 @@
         android:id="@+id/tv_login3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Quota:₹ 5000"
+        android:text="Quota:₹ 500000"
         android:textColor="@color/c_303541"
         android:textSize="@dimen/ts_21"
         app:layout_constraintStart_toStartOf="@+id/tv_login1"

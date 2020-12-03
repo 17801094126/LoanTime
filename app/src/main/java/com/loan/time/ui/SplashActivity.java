@@ -13,6 +13,7 @@ import com.loan.time.App;
 import com.loan.time.R;
 import com.loan.time.bean.ResponseBean;
 import com.loan.time.mvp.MVPBaseActivity;
+import com.loan.time.ui.authority.AuthorityActivity;
 import com.loan.time.ui.first.FirstActivity;
 import com.loan.time.ui.login.LoginActivity;
 import com.loan.time.ui.login.LoginContract;
@@ -46,10 +47,18 @@ public class SplashActivity extends MVPBaseActivity<SplashContract.View, SplashP
                     startActivity(intent);
                     finish();
                 }else if (anInt==2){
-                    Intent intent = new Intent(SplashActivity.this, FirstActivity.class);
-                    intent.putParcelableArrayListExtra(FirstActivity.HomeResult,mList);
-                    startActivity(intent);
-                    finish();
+                    if (PreferenceUtil.getBoolean(App.IsAuthority,false)){
+                        Intent intent = new Intent(SplashActivity.this, FirstActivity.class);
+                        intent.putParcelableArrayListExtra(FirstActivity.HomeResult,mList);
+                        startActivity(intent);
+                        finish();
+                    }else{
+                        Intent intent = new Intent(SplashActivity.this, AuthorityActivity.class);
+                        intent.putParcelableArrayListExtra(FirstActivity.HomeResult,mList);
+                        startActivity(intent);
+                        finish();
+                    }
+
                 }
             } else {
                 timer--;
