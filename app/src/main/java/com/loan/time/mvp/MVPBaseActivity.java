@@ -8,6 +8,7 @@ import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,8 +31,14 @@ public abstract class MVPBaseActivity<V extends BaseView,T extends BasePresenter
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         PreferenceUtil.init(this);
+        /**
+         * style的windowTranslucentNavigation设置为false后，状态栏无法达到沉浸效果
+         * 设置UI FLAG 让布局能占据状态栏的空间，达到沉浸效果
+         */
+        int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+        getWindow().getDecorView().setSystemUiVisibility(option);
         setContentView(getLayoutId());
-
         if (Build.VERSION.SDK_INT>=23){
             ImmersionBar.with(this)
                     .statusBarDarkFont(true)//状态栏字体是深色，不写默认为亮色
