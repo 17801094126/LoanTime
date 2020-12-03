@@ -60,6 +60,7 @@ public class FirstActivity extends MVPBaseActivity<FirstContract.View, FirstPres
     @Override
     protected void initView() {
         super.initView();
+        //隐藏华为虚拟按键
         Window window = getWindow();
         WindowManager.LayoutParams params = window.getAttributes();
         params.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION|View.SYSTEM_UI_FLAG_IMMERSIVE;
