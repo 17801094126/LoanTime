@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.gyf.immersionbar.ImmersionBar;
 import com.loan.time.App;
+import com.loan.time.R;
 import com.loan.time.utils.ActivityCollector;
 import com.loan.time.utils.AppUtils;
 import com.loan.time.utils.PreferenceUtil;
@@ -32,16 +33,23 @@ public abstract class MVPBaseActivity<V extends BaseView,T extends BasePresenter
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         PreferenceUtil.init(this);
-
         setContentView(getLayoutId());
         if (Build.VERSION.SDK_INT>=23){
             ImmersionBar.with(this)
                     .statusBarDarkFont(true)//状态栏字体是深色，不写默认为亮色
+                    .transparentNavigationBar()  //透明导航栏，不写默认黑色(设置此方法，fullScreen()方法自动为 true)
+                    .navigationBarColor(R.color.black) //导航栏颜色，不写默认黑色
+                    .navigationBarAlpha(0.4f)  //导航栏透明度，不写默认 0.0F
+                    .fullScreen(false)
                     .init();
         }else{
             ImmersionBar.with(this)
-                    .statusBarDarkFont(true)//状态栏字体是深色，不写默认为亮色
+                    .statusBarDarkFont(false)//状态栏字体是深色，不写默认为亮色
                     .statusBarAlpha(0.3f)  //状态栏透明度，不写默认0.0f
+                    .transparentNavigationBar()  //透明导航栏，不写默认黑色(设置此方法，fullScreen()方法自动为 true)
+                    .navigationBarColor(R.color.black) //导航栏颜色，不写默认黑色
+                    .navigationBarAlpha(0.4f)  //导航栏透明度，不写默认 0.0F
+                    .fullScreen(false)
                     .init();
         }
         AppUtils.setStatus(this);

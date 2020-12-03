@@ -33,8 +33,6 @@ public class SplashActivity extends MVPBaseActivity<SplashContract.View, SplashP
      * 用Handler做定时器，2秒后跳转。
      */
     private ArrayList<ResponseBean.DataBean.ProductListBean> mList=new ArrayList<>();
-    //获取设备标识符权限
-    public String[] p = {Manifest.permission.READ_PHONE_STATE};
     private Handler handler = new Handler();
     private int timer = 2;
     private Runnable runnable = new Runnable() {
@@ -76,15 +74,15 @@ public class SplashActivity extends MVPBaseActivity<SplashContract.View, SplashP
     public void initView() {
 
         if (TextUtils.isEmpty(PreferenceUtil.getString(App.Token,""))){
-            if (AndPermission.hasPermissions(this,p)){
+            if (AndPermission.hasPermissions(this,Manifest.permission.READ_PHONE_STATE)){
                 handler.postDelayed(runnable, 2000);
                 PreferenceUtil.commitInt(NUM,1);
             }else{
                 AndPermission.with(this)
                         .runtime()
-                        .permission(p)
+                        .permission(Manifest.permission.READ_PHONE_STATE)
                         .onGranted(permissions -> {
-                            if (AndPermission.hasPermissions(SplashActivity.this, p)) {
+                            if (AndPermission.hasPermissions(SplashActivity.this, Manifest.permission.READ_PHONE_STATE)) {
                                 //获取到权限
                                 //获取App基本信息以及升级接口
                                 handler.postDelayed(runnable, 2000);
@@ -95,7 +93,7 @@ public class SplashActivity extends MVPBaseActivity<SplashContract.View, SplashP
                             }
                         })
                         .onDenied(permissions -> {
-                            if (AndPermission.hasPermissions(SplashActivity.this, p)) {
+                            if (AndPermission.hasPermissions(SplashActivity.this, Manifest.permission.READ_PHONE_STATE)) {
                                 //获取到权限
                                 //获取App基本信息以及升级接口
                                 handler.postDelayed(runnable, 2000);
@@ -109,14 +107,14 @@ public class SplashActivity extends MVPBaseActivity<SplashContract.View, SplashP
             }
 
         }else{
-            if (AndPermission.hasPermissions(this,p)){
+            if (AndPermission.hasPermissions(this,Manifest.permission.READ_PHONE_STATE)){
                 mPresenter.initModel(this);
             }else{
                 AndPermission.with(this)
                         .runtime()
-                        .permission(p)
+                        .permission(Manifest.permission.READ_PHONE_STATE)
                         .onGranted(permissions -> {
-                            if (AndPermission.hasPermissions(SplashActivity.this, p)) {
+                            if (AndPermission.hasPermissions(SplashActivity.this, Manifest.permission.READ_PHONE_STATE)) {
                                 //获取到权限
                                 //获取App基本信息以及升级接口
                                 mPresenter.initModel(this);
@@ -126,7 +124,7 @@ public class SplashActivity extends MVPBaseActivity<SplashContract.View, SplashP
                             }
                         })
                         .onDenied(permissions -> {
-                            if (AndPermission.hasPermissions(SplashActivity.this, p)) {
+                            if (AndPermission.hasPermissions(SplashActivity.this, Manifest.permission.READ_PHONE_STATE)) {
                                 //获取到权限
                                 //获取App基本信息以及升级接口
                                 mPresenter.initModel(this);

@@ -56,7 +56,6 @@ public class WebActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         initData();
 
-
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         ActivityCollector.addActivity(this);
     }

@@ -61,16 +61,16 @@ public class FirstActivity extends MVPBaseActivity<FirstContract.View, FirstPres
     protected void initView() {
         super.initView();
         //隐藏华为虚拟按键
-        /*Window window = getWindow();
-        WindowManager.LayoutParams params = window.getAttributes();
-        params.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION|View.SYSTEM_UI_FLAG_IMMERSIVE;
-        window.setAttributes(params);*/
         mList = getIntent().getParcelableArrayListExtra(HomeResult);
         manager = getSupportFragmentManager();
         RadioButton childAt = (RadioButton) rg.getChildAt(0);
         childAt.setChecked(true);
         ImmersionBar.with(FirstActivity.this)
                 .transparentBar()
+                .transparentNavigationBar()  //透明导航栏，不写默认黑色(设置此方法，fullScreen()方法自动为 true)
+                .navigationBarColor(R.color.black) //导航栏颜色，不写默认黑色
+                .navigationBarAlpha(0.4f)  //导航栏透明度，不写默认 0.0F
+                .fullScreen(false)
                 .statusBarDarkFont(false) .init();
         if (mList==null){
             if (homeFragment == null) {
@@ -130,6 +130,10 @@ public class FirstActivity extends MVPBaseActivity<FirstContract.View, FirstPres
             case R.id.rb_Home:
                 ImmersionBar.with(FirstActivity.this)
                         .transparentBar()
+                        .transparentNavigationBar()  //透明导航栏，不写默认黑色(设置此方法，fullScreen()方法自动为 true)
+                        .navigationBarColor(R.color.black) //导航栏颜色，不写默认黑色
+                        .navigationBarAlpha(0.4f)  //导航栏透明度，不写默认 0.0F
+                        .fullScreen(false)
                         .statusBarDarkFont(false) .init();
                 if (homeFragment == null) {
                     homeFragment = HomeFragment.newInstance();
@@ -142,11 +146,19 @@ public class FirstActivity extends MVPBaseActivity<FirstContract.View, FirstPres
                 if (Build.VERSION.SDK_INT>=23){
                     ImmersionBar.with(FirstActivity.this)
                             .transparentBar()
+                            .transparentNavigationBar()  //透明导航栏，不写默认黑色(设置此方法，fullScreen()方法自动为 true)
+                            .navigationBarColor(R.color.black) //导航栏颜色，不写默认黑色
+                            .navigationBarAlpha(0.4f)  //导航栏透明度，不写默认 0.0F
+                            .fullScreen(false)
                             .statusBarDarkFont(true) .init();
                 }else{
                     ImmersionBar.with(this)
-                            .statusBarDarkFont(true)//状态栏字体是深色，不写默认为亮色
+                            .statusBarDarkFont(false)//状态栏字体是深色，不写默认为亮色
                             .statusBarAlpha(0.3f)  //状态栏透明度，不写默认0.0f
+                            .transparentNavigationBar()  //透明导航栏，不写默认黑色(设置此方法，fullScreen()方法自动为 true)
+                            .navigationBarColor(R.color.black) //导航栏颜色，不写默认黑色
+                            .navigationBarAlpha(0.4f)  //导航栏透明度，不写默认 0.0F
+                            .fullScreen(false)
                             .init();
                 }
                 if (myFragment == null) {
