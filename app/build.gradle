@@ -29,7 +29,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField("String", "BASE_URL", "\"dev\"")
+            buildConfigField("String", "BASE_URL", "\"https://www.loantime.be/pubapi/\"")
             signingConfig signingConfigs.loanTime
         }
         //test环境
@@ -83,7 +83,7 @@ dependencies {
     // fragment快速实现（可选）
     implementation 'com.gyf.immersionbar:immersionbar-components:3.0.0-beta03'
     //权限管理
-    implementation 'com.yanzhenjie:permission:2.0.2'
+    implementation 'com.yanzhenjie:permission:2.0.3'
     //避免重复点击
     implementation 'org.aspectj:aspectjrt:1.9.6'
     //加载框

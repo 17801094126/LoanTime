@@ -65,7 +65,7 @@ public class SplashPresenter  extends BasePresenterImpl<SplashContract.View> imp
             requestBean.setUid("0");
             //设置App基本信息
             RequestBean.DataBean dataBean = initDeviceInfo(context);
-            requestBean.setDeviceInfo(dataBean);
+            requestBean.setDeviceInfo(new Gson().toJson(dataBean));
             String respone = HttpUtils.getInstance().sendRequest(BuildConfig.BASE_URL, "a_a_0", gson.toJson(requestBean), "{}");
             ResponseBean responseBean = gson.fromJson(respone, ResponseBean.class);
             emitter.onNext(responseBean);

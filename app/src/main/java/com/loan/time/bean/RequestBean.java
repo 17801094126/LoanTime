@@ -32,7 +32,7 @@ public class RequestBean implements Serializable {
     private String versionKey= Constants.VersionKey;
     private String version=Constants.VersionCode;
     //采集的设备信息
-    private DataBean deviceInfo;
+    private String deviceInfo;
     //印尼 +62/越南 +84 /印度 +91 (get请求时要做UrlEncode)
     private String country="+91";
 
@@ -211,11 +211,11 @@ public class RequestBean implements Serializable {
         this.version = version;
     }
 
-    public DataBean getDeviceInfo() {
+    public String getDeviceInfo() {
         return deviceInfo;
     }
 
-    public void setDeviceInfo(DataBean deviceInfo) {
+    public void setDeviceInfo(String deviceInfo) {
         this.deviceInfo = deviceInfo;
     }
 

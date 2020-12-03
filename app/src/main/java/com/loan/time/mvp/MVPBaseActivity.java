@@ -40,7 +40,9 @@ public abstract class MVPBaseActivity<V extends BaseView,T extends BasePresenter
                     .transparentNavigationBar()  //透明导航栏，不写默认黑色(设置此方法，fullScreen()方法自动为 true)
                     .navigationBarColor(R.color.black) //导航栏颜色，不写默认黑色
                     .navigationBarAlpha(0.4f)  //导航栏透明度，不写默认 0.0F
+                    .statusBarDarkFont(true)   //状态栏字体是深色，不写默认为亮色
                     .fullScreen(false)
+                    .reset()
                     .init();
         }else{
             ImmersionBar.with(this)
@@ -49,7 +51,9 @@ public abstract class MVPBaseActivity<V extends BaseView,T extends BasePresenter
                     .transparentNavigationBar()  //透明导航栏，不写默认黑色(设置此方法，fullScreen()方法自动为 true)
                     .navigationBarColor(R.color.black) //导航栏颜色，不写默认黑色
                     .navigationBarAlpha(0.4f)  //导航栏透明度，不写默认 0.0F
+                    .statusBarDarkFont(true)   //状态栏字体是深色，不写默认为亮色
                     .fullScreen(false)
+                    .reset()
                     .init();
         }
         AppUtils.setStatus(this);

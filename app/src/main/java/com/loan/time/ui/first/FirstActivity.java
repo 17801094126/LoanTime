@@ -71,7 +71,9 @@ public class FirstActivity extends MVPBaseActivity<FirstContract.View, FirstPres
                 .navigationBarColor(R.color.black) //导航栏颜色，不写默认黑色
                 .navigationBarAlpha(0.4f)  //导航栏透明度，不写默认 0.0F
                 .fullScreen(false)
-                .statusBarDarkFont(false) .init();
+                .statusBarDarkFont(false)
+                .reset()
+                .init();
         if (mList==null){
             if (homeFragment == null) {
                 homeFragment = HomeFragment.newInstance();
@@ -150,7 +152,9 @@ public class FirstActivity extends MVPBaseActivity<FirstContract.View, FirstPres
                             .navigationBarColor(R.color.black) //导航栏颜色，不写默认黑色
                             .navigationBarAlpha(0.4f)  //导航栏透明度，不写默认 0.0F
                             .fullScreen(false)
-                            .statusBarDarkFont(true) .init();
+                            .statusBarDarkFont(true)
+                            .reset()
+                            .init();
                 }else{
                     ImmersionBar.with(this)
                             .statusBarDarkFont(false)//状态栏字体是深色，不写默认为亮色
@@ -159,6 +163,7 @@ public class FirstActivity extends MVPBaseActivity<FirstContract.View, FirstPres
                             .navigationBarColor(R.color.black) //导航栏颜色，不写默认黑色
                             .navigationBarAlpha(0.4f)  //导航栏透明度，不写默认 0.0F
                             .fullScreen(false)
+                            .reset()
                             .init();
                 }
                 if (myFragment == null) {

@@ -51,7 +51,7 @@ public class LoginPresenter  extends BasePresenterImpl<LoginContract.View> imple
             requestBean.setUid("0");
             //设置App基本信息
             RequestBean.DataBean dataBean = initDeviceInfo(context);
-            requestBean.setDeviceInfo(dataBean);
+            requestBean.setDeviceInfo(new Gson().toJson(dataBean));
             String respone = HttpUtils.getInstance().sendRequest(BuildConfig.BASE_URL, "a_a_0", gson.toJson(requestBean), "{}");
             emitter.onNext(respone);
             Log.e("LoginPresenter","RequqestBean:"+requestBean.toString());
@@ -139,7 +139,7 @@ public class LoginPresenter  extends BasePresenterImpl<LoginContract.View> imple
                 requestBean.setUid("0");
                 //设置App基本信息
                 RequestBean.DataBean dataBean = initDeviceInfo(context);
-                requestBean.setDeviceInfo(dataBean);
+                requestBean.setDeviceInfo(new Gson().toJson(dataBean));
                 String respone = HttpUtils.getInstance().sendRequest(BuildConfig.BASE_URL, "a_a_0", gson.toJson(requestBean), "{}");
                 ResponseBean responseBean = gson.fromJson(respone, ResponseBean.class);
                 String deviceId = responseBean.getData().getDeviceId();
@@ -222,7 +222,7 @@ public class LoginPresenter  extends BasePresenterImpl<LoginContract.View> imple
             requestBean.setUid("0");
             requestBean.setCaptchaId(id);
             requestBean.setDigits(imgCode);
-            requestBean.setDeviceInfo(initDeviceInfo(activity));
+            requestBean.setDeviceInfo(new Gson().toJson(initDeviceInfo(activity)));
             String respone = HttpUtils.getInstance().sendRequest(BuildConfig.BASE_URL, "a_l_1", gson.toJson(requestBean), "{}");
             ResponseBean responseBean = gson.fromJson(respone, ResponseBean.class);
             emitter.onNext(responseBean);

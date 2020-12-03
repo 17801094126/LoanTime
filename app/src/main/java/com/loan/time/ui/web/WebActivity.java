@@ -116,14 +116,14 @@ public class WebActivity extends AppCompatActivity {
                     }else if ("appInfo".equals(host)){
                         String callback = parse.getQueryParameter("callback");
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                            Log.e(TAG, concat(getJson()));
+                            Log.e(TAG, getJson());
                             // 只需要将第一种方法的loadUrl()换成下面该方法即可
-                            web.evaluateJavascript("javascript:"+callback+"(" + concat(getJson()) + ")", value -> {
+                            web.evaluateJavascript("javascript:"+callback+"(" + getJson() + ")", value -> {
                                 //此处为 js 返回的结果
                                 Log.e(TAG, value);
                             });
                         } else {
-                            web.loadUrl("javascript:"+callback+"(" + concat(getJson()) + ")");
+                            web.loadUrl("javascript:"+callback+"(" +getJson() + ")");
                         }
                     }
 
@@ -133,42 +133,6 @@ public class WebActivity extends AppCompatActivity {
             }
         });
         web.loadUrl(activityurl);
-    }
-
-
-    private String concat(String... params) {
-        StringBuilder mStringBuilder = new StringBuilder();
-        for (int i = 0; i < params.length; i++) {
-            String param = params[i];
-            if (!isJson(param)) {
-                mStringBuilder.append("\"").append(param).append("\"");
-            } else {
-                mStringBuilder.append(param);
-            }
-            if (i != params.length - 1) {
-                mStringBuilder.append(" , ");
-            }
-        }
-        return mStringBuilder.toString();
-    }
-
-    static boolean isJson(String target) {
-        if (TextUtils.isEmpty(target)) {
-            return false;
-        }
-        boolean tag = false;
-        try {
-            if (target.startsWith("[")) {
-                new JSONArray(target);
-            } else {
-                new JSONObject(target);
-            }
-            tag = true;
-        } catch (JSONException ignore) {
-//            ignore.printStackTrace();
-            tag = false;
-        }
-        return tag;
     }
 
     /**
@@ -183,7 +147,8 @@ public class WebActivity extends AppCompatActivity {
         requestBean.setTerminal_name("LoanTime");
         requestBean.setToken(PreferenceUtil.getString(App.Token,""));
         requestBean.setDeviceId(PreferenceUtil.getString(App.DeviceId,""));
-        requestBean.setDeviceInfo(initDeviceInfo(this));
+        RequestBean.DataBean dataBean = initDeviceInfo(this);
+        requestBean.setDeviceInfo(new Gson().toJson(dataBean));
         String s = new Gson().toJson(requestBean);
         return s;
     }

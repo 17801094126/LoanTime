@@ -1,13 +1,9 @@
 package com.loan.time.ui;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
-import android.view.WindowManager;
-import android.widget.ImageView;
 
 import com.loan.time.App;
 import com.loan.time.R;
@@ -16,11 +12,10 @@ import com.loan.time.mvp.MVPBaseActivity;
 import com.loan.time.ui.authority.AuthorityActivity;
 import com.loan.time.ui.first.FirstActivity;
 import com.loan.time.ui.login.LoginActivity;
-import com.loan.time.ui.login.LoginContract;
-import com.loan.time.ui.login.LoginPresenter;
 import com.loan.time.utils.DialogHelp;
 import com.loan.time.utils.PreferenceUtil;
 import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.runtime.Permission;
 
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
@@ -80,9 +75,9 @@ public class SplashActivity extends MVPBaseActivity<SplashContract.View, SplashP
             }else{
                 AndPermission.with(this)
                         .runtime()
-                        .permission(Manifest.permission.READ_PHONE_STATE)
+                        .permission(Permission.READ_PHONE_STATE)
                         .onGranted(permissions -> {
-                            if (AndPermission.hasPermissions(SplashActivity.this, Manifest.permission.READ_PHONE_STATE)) {
+                            if (AndPermission.hasPermissions(SplashActivity.this, Permission.READ_PHONE_STATE)) {
                                 //获取到权限
                                 //获取App基本信息以及升级接口
                                 handler.postDelayed(runnable, 2000);
@@ -93,7 +88,7 @@ public class SplashActivity extends MVPBaseActivity<SplashContract.View, SplashP
                             }
                         })
                         .onDenied(permissions -> {
-                            if (AndPermission.hasPermissions(SplashActivity.this, Manifest.permission.READ_PHONE_STATE)) {
+                            if (AndPermission.hasPermissions(SplashActivity.this, Permission.READ_PHONE_STATE)) {
                                 //获取到权限
                                 //获取App基本信息以及升级接口
                                 handler.postDelayed(runnable, 2000);
@@ -107,14 +102,14 @@ public class SplashActivity extends MVPBaseActivity<SplashContract.View, SplashP
             }
 
         }else{
-            if (AndPermission.hasPermissions(this,Manifest.permission.READ_PHONE_STATE)){
+            if (AndPermission.hasPermissions(this,Permission.READ_PHONE_STATE)){
                 mPresenter.initModel(this);
             }else{
                 AndPermission.with(this)
                         .runtime()
-                        .permission(Manifest.permission.READ_PHONE_STATE)
+                        .permission(Permission.READ_PHONE_STATE)
                         .onGranted(permissions -> {
-                            if (AndPermission.hasPermissions(SplashActivity.this, Manifest.permission.READ_PHONE_STATE)) {
+                            if (AndPermission.hasPermissions(SplashActivity.this, Permission.READ_PHONE_STATE)) {
                                 //获取到权限
                                 //获取App基本信息以及升级接口
                                 mPresenter.initModel(this);
@@ -124,7 +119,7 @@ public class SplashActivity extends MVPBaseActivity<SplashContract.View, SplashP
                             }
                         })
                         .onDenied(permissions -> {
-                            if (AndPermission.hasPermissions(SplashActivity.this, Manifest.permission.READ_PHONE_STATE)) {
+                            if (AndPermission.hasPermissions(SplashActivity.this,Permission.READ_PHONE_STATE)) {
                                 //获取到权限
                                 //获取App基本信息以及升级接口
                                 mPresenter.initModel(this);
