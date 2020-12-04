@@ -2,7 +2,7 @@ package com.loan.time.utils;
 
 import android.app.Activity;
 
-import com.yanzhenjie.permission.AndPermission;
+import com.loan.time.permission.AndPermission;
 
 /**
  *

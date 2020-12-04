@@ -157,11 +157,8 @@ public class FirstActivity extends MVPBaseActivity<FirstContract.View, FirstPres
                             .init();
                 }else{
                     ImmersionBar.with(this)
-                            .statusBarDarkFont(false)//状态栏字体是深色，不写默认为亮色
+                            .statusBarDarkFont(true)//状态栏字体是深色，不写默认为亮色
                             .statusBarAlpha(0.3f)  //状态栏透明度，不写默认0.0f
-                            .transparentNavigationBar()  //透明导航栏，不写默认黑色(设置此方法，fullScreen()方法自动为 true)
-                            .navigationBarColor(R.color.black) //导航栏颜色，不写默认黑色
-                            .navigationBarAlpha(0.4f)  //导航栏透明度，不写默认 0.0F
                             .fullScreen(false)
                             .reset()
                             .init();

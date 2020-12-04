@@ -1,6 +1,7 @@
 package com.loan.time.ui.authority;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.View;
@@ -14,6 +15,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.gyf.immersionbar.ImmersionBar;
 import com.loan.time.App;
 import com.loan.time.R;
 import com.loan.time.adaperts.AuthorityRv;
@@ -59,7 +61,6 @@ public class AuthorityActivity extends MVPBaseActivity<AuthorityContract.View, A
     @Override
     protected void initView() {
         super.initView();
-
         toolBar.setPadding(0, getHeight(), 0, 0);
         finish.setVisibility(View.GONE);
         title.setText("Permission statement");

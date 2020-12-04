@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation">
     <string name="app_name" tools:ignore="MissingTranslation">LoanTime</string>
     <!-- Strings related to login -->
     <string name="prompt_email" tools:ignore="MissingTranslation">Email</string>
@@ -16,7 +17,19 @@
 
     <string name="facebook_app_id" tools:ignore="MissingTranslation">426668595369788</string>
     <string name="fb_login_protocol_scheme" tools:ignore="MissingTranslation">fb[426668595369788]</string>
+    <string name="permission_name_calendar" tools:ignore="MissingTranslation">Calendar</string>
+    <string name="permission_name_camera" >Camera</string>
+    <string name="permission_name_contacts">Accounts/Contacts</string>
+    <string name="permission_name_location">Location</string>
+    <string name="permission_name_microphone">Microphone</string>
+    <string name="permission_name_phone">Phone</string>
+    <string name="permission_name_call_log">Call Log</string>
+    <string name="permission_name_sensors">Body Sensors</string>
+    <string name="permission_name_activity_recognition">Activity Recognition</string>
+    <string name="permission_name_sms">SMS</string>
+    <string name="permission_name_storage">Storage</string>
 
+    <string name="permission_requesting">Requesting permissions…</string>
 
 
 </resources>

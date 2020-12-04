@@ -56,7 +56,6 @@ public abstract class MVPBaseActivity<V extends BaseView,T extends BasePresenter
                     .reset()
                     .init();
         }
-        AppUtils.setStatus(this);
         App.context=this;
         mPresenter= getInstance(this,1);
         mPresenter.attachView((V) this);

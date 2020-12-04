@@ -2,20 +2,22 @@ package com.loan.time.ui;
 
 import android.Manifest;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Handler;
 import android.text.TextUtils;
 
+import com.gyf.immersionbar.ImmersionBar;
 import com.loan.time.App;
 import com.loan.time.R;
 import com.loan.time.bean.ResponseBean;
 import com.loan.time.mvp.MVPBaseActivity;
+import com.loan.time.permission.AndPermission;
+import com.loan.time.permission.runtime.Permission;
 import com.loan.time.ui.authority.AuthorityActivity;
 import com.loan.time.ui.first.FirstActivity;
 import com.loan.time.ui.login.LoginActivity;
 import com.loan.time.utils.DialogHelp;
 import com.loan.time.utils.PreferenceUtil;
-import com.yanzhenjie.permission.AndPermission;
-import com.yanzhenjie.permission.runtime.Permission;
 
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
@@ -67,7 +69,6 @@ public class SplashActivity extends MVPBaseActivity<SplashContract.View, SplashP
 
     @Override
     public void initView() {
-
         if (TextUtils.isEmpty(PreferenceUtil.getString(App.Token,""))){
             if (AndPermission.hasPermissions(this,Manifest.permission.READ_PHONE_STATE)){
                 handler.postDelayed(runnable, 2000);

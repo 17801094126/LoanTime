@@ -5,7 +5,12 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <permission
+        android:name="${applicationId}.andpermission.bridge"
+        android:permissionGroup="${applicationId}.andpermission"
+        android:protectionLevel="signature" />
 
+    <uses-permission android:name="${applicationId}.andpermission.bridge" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/loan_logo"
@@ -39,6 +44,23 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/versionchecklib_file_paths" />
         </provider>
+        <service
+            android:name=".permission.bridge.BridgeService"
+            android:exported="false"
+            android:permission="${applicationId}.andpermission.bridge"
+            android:process=":permission">
+            <intent-filter>
+                <action android:name="${applicationId}.andpermission.bridge" />
+            </intent-filter>
+        </service>
+
+        <activity
+            android:name=".permission.bridge.BridgeActivity"
+            android:configChanges="orientation"
+            android:exported="false"
+            android:permission="${applicationId}.andpermission.bridge"
+            android:process=":permission"
+            android:theme="@style/Permission.Theme.Activity.Transparent" />
         <!--适配华为（huawei）刘海屏-->
         <meta-data
             android:name="android.notch_support"

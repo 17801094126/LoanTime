@@ -2,6 +2,7 @@ package com.loan.time.ui.list;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.ImageView;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.Adapter;
 
+import com.gyf.immersionbar.ImmersionBar;
 import com.loan.time.R;
 import com.loan.time.adaperts.HomeRvAdapert;
 import com.loan.time.bean.ResponseBean;
