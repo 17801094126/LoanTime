@@ -60,7 +60,6 @@ public class FirstActivity extends MVPBaseActivity<FirstContract.View, FirstPres
     @Override
     protected void initView() {
         super.initView();
-        //隐藏华为虚拟按键
         mList = getIntent().getParcelableArrayListExtra(HomeResult);
         manager = getSupportFragmentManager();
         RadioButton childAt = (RadioButton) rg.getChildAt(0);
@@ -160,7 +159,6 @@ public class FirstActivity extends MVPBaseActivity<FirstContract.View, FirstPres
                             .statusBarDarkFont(true)//状态栏字体是深色，不写默认为亮色
                             .statusBarAlpha(0.3f)  //状态栏透明度，不写默认0.0f
                             .fullScreen(false)
-                            .reset()
                             .init();
                 }
                 if (myFragment == null) {
