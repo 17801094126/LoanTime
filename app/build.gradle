@@ -34,7 +34,7 @@ android {
         }
         //test环境
         debug {
-            buildConfigField("String", "BASE_URL", "\"dev\"")
+            buildConfigField("String", "BASE_URL", "\"https://www.loantime.be/pubapi/\"")
             signingConfig signingConfigs.loanTime
         }
     }

@@ -97,7 +97,6 @@ public class WebActivity extends AppCompatActivity {
                 if ("wode-schema".equals(scheme)){
                     //判断不同Host
                     if ("closeNewWebview".equals(host)){
-                        ToastUtils.showToast(WebActivity.this,"Close WebView!");
                         WebActivity.this.finish();
                     }else if ("jumpUrlOuter".equals(host)){
                             try {

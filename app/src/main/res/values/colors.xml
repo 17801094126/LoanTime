@@ -16,5 +16,6 @@
     <color name="c_FFEFE7">#FFEFE7</color>
     <color name="c_FF8434">#FF8434</color>
     <color name="c_D6D7DC">#D6D7DC</color>
+    <color name="back_color">#F5F5F5</color>
 
 </resources>
